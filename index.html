@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Richard Luo | Research Portfolio</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #0B3D91;
+            --accent: #4facfe;
+            --bg: #FAFAFA;
+            --text: #333;
+            --glass: rgba(255, 255, 255, 0.9);
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            background-image: radial-gradient(#0B3D91 0.5px, transparent 0.5px);
+            background-size: 30px 30px; /* Dot matrix pattern */
+        }
+
+        /* Typography */
+        h1, h2, h3 { color: var(--primary); font-family: 'Playfair Display', serif; }
+        .highlight { color: var(--accent); font-weight: 600; }
+
+        /* Layout */
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+        section { padding: 80px 0; }
+
+        /* Navigation */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 1000;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        .nav-content {
+            display: flex; justify-content: space-between; align-items: center; height: 70px;
+        }
+        .logo { font-weight: 700; font-size: 1.2rem; color: var(--primary); text-decoration: none; }
+        .nav-links a {
+            margin-left: 30px; text-decoration: none; color: #555; font-size: 0.9rem; transition: 0.3s;
+        }
+        .nav-links a:hover, .nav-links a.active { color: var(--primary); font-weight: 600; }
+
+        /* Hero Section */
+        .hero {
+            min-height: 90vh; display: flex; align-items: center; justify-content: center;
+            padding-top: 80px;
+        }
+        .hero-grid {
+            display: grid; grid-template-columns: 1fr 1.5fr; gap: 50px; align-items: center;
+        }
+        .profile-img-wrapper {
+            position: relative;
+        }
+        .profile-img-wrapper::after {
+            content: ''; position: absolute; top: 20px; left: 20px; width: 100%; height: 100%;
+            border: 2px solid var(--primary); z-index: -1; border-radius: 12px;
+        }
+        .profile-img {
+            width: 100%; border-radius: 12px; box-shadow: var(--shadow);
+            transition: transform 0.3s;
+        }
+        .profile-img:hover { transform: translateY(-5px) scale(1.01); }
+        
+        .tag {
+            display: inline-block; padding: 4px 12px; background: #E8F0FE; 
+            color: var(--primary); border-radius: 20px; font-size: 0.8rem; margin-bottom: 15px;
+        }
+
+        /* Cards */
+        .card {
+            background: white; border-radius: 12px; padding: 30px; margin-bottom: 25px;
+            box-shadow: var(--shadow); border: 1px solid rgba(0,0,0,0.02);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.15);
+        }
+        .card-meta { font-size: 0.85rem; color: #777; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;}
+        .card-details { margin-top: 15px; display: none; padding-top: 15px; border-top: 1px solid #eee; font-size: 0.95rem; color: #555;}
+        .toggle-btn {
+            background: none; border: none; color: var(--primary); cursor: pointer;
+            font-size: 0.9rem; margin-top: 10px; padding: 0; font-weight: 600;
+        }
+        .toggle-btn i { transition: transform 0.3s; }
+
+        /* Input */
+        .search-box {
+            width: 100%; padding: 15px; border: 2px solid #eee; border-radius: 8px;
+            margin-bottom: 30px; font-family: inherit; outline: none; transition: 0.3s;
+        }
+        .search-box:focus { border-color: var(--primary); }
+
+        /* Chart Section */
+        .skills-container {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;
+        }
+        .chart-wrapper { position: relative; height: 400px; width: 100%; }
+
+        /* Footer */
+        footer { background: var(--primary); color: white; padding: 50px 0; text-align: center; }
+        .social-links a { color: white; margin: 0 15px; font-size: 1.5rem; transition: 0.3s; }
+        .social-links a:hover { color: var(--accent); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-grid, .skills-container { grid-template-columns: 1fr; }
+            .nav-links { display: none; } /* Mobile menu simplified for demo */
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="container nav-content">
+            <a href="#" class="logo">RICHARD LUO</a>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="#publications">Publications</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="container hero-grid">
+            <div class="profile-img-wrapper">
+                <img src="https://raw.githubusercontent.com/Aquariusia/profile_app/refs/heads/main/profile/profile.jpg" alt="Richard Luo" class="profile-img">
+            </div>
+            <div>
+                <span class="tag">Available for PhD/M.Phil 2026</span>
+                <h1>Data Scientist.<br>Researcher.<br>Composer.</h1>
+                <p style="margin: 20px 0; font-size: 1.1rem; color: #555;">
+                    Exploring the intersection of <span class="highlight">Quantitative Methods</span> and <span class="highlight">Social Systems</span>.
+                </p>
+                <p>
+                    I hold a B.Econ from the University of Sydney, majoring in Data Science and Econometrics. Currently focused on AI in Health, agent-based social simulation, and causal inference.
+                </p>
+                <br>
+                <button onclick="document.getElementById('publications').scrollIntoView()" style="background: var(--primary); color: white; border: none; padding: 12px 30px; border-radius: 6px; cursor: pointer; font-size: 1rem;">
+                    View Research
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <section id="publications">
+        <div class="container">
+            <h2>Publications & Research</h2>
+            <p style="margin-bottom: 30px; color: #666;">My academic inquiries into econometrics and policy evaluation.</p>
+            
+            <input type="text" id="pubSearch" class="search-box" placeholder="Search research topics..." onkeyup="filterPublications()">
+
+            <div class="card pub-card" data-title="Replication and Critique of David Card">
+                <div class="card-meta">Research / Econometrics</div>
+                <h3>Replication and Critique of David Card’s 1993 Work: Re-estimating Returns on Education</h3>
+                <p style="margin-top: 10px;">Revisiting causal effects of college attendance using updated instrumental variable methods in the digital age.</p>
+                <button class="toggle-btn" onclick="toggleDetails(this)">
+                    Read Abstract <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="card-details">
+                    This research revisits David Card’s 1993 study on the causal effect of college attendance on returns to education by leveraging a new dataset and several updated estimation methods. I re-evaluate the relationship between students’ family proximity to universities and educational outcomes, and examine how the validity of distance as an instrumental variable may have attenuated in the context of widespread internet access and remote learning... (Details abridged for layout)
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" style="background: white;">
+        <div class="container">
+            <h2>Technical Projects</h2>
+            <p style="margin-bottom: 40px; color: #666;">Applied Data Science, Machine Learning & Healthcare AI.</p>
+
+            <div class="card">
+                <div class="card-meta"><i class="fas fa-map-marked-alt"></i> Geospatial Data</div>
+                <h3>Optimal Locations for Primary Schools in Sydney</h3>
+                <p>Data-driven identification for new school sites using POI normalization and GIS mapping.</p>
+                <button class="toggle-btn" onclick="toggleDetails(this)">View Details <i class="fas fa-chevron-down"></i></button>
+                <div class="card-details">
+                    Integrates multiple resource indicators as points of interest (POIs), which are normalized and incorporated into a comprehensive, visualized geographic information system (GIS) map.
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-meta"><i class="fas fa-dna"></i> ML Healthcare</div>
+                <h3>XGBoost Classification of Acute Leukemia</h3>
+                <p>Key biomarker discovery using the Golub et al. (1999) gene expression dataset.</p>
+                <button class="toggle-btn" onclick="toggleDetails(this)">View Details <i class="fas fa-chevron-down"></i></button>
+                <div class="card-details">
+                    Utilized gene expression data involving EDA, cleaning, and feature engineering. Trained multiple models, selecting XGBoost as optimal for the high-dimensional, low-sample dataset.
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-meta"><i class="fas fa-user-md"></i> LLM + Web App</div>
+                <h3>Genetic Risk Calculator</h3>
+                <p>A Genomic Data-Based Diagnostic Assistant using LLM & XGBoost.</p>
+                <button class="toggle-btn" onclick="toggleDetails(this)">View Details <i class="fas fa-chevron-down"></i></button>
+                <div class="card-details">
+                    Developed a Streamlit-based web application. Integrates a base classification model with a fine-tuned LLM to assist analysis via complex prompt engineering.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills">
+        <div class="container">
+            <div class="skills-container">
+                <div>
+                    <h2>Technical Expertise</h2>
+                    <p>
+                        My skillset bridges the gap between traditional econometric theory and modern computational intelligence. 
+                        I specialize in interpreting complex social data through rigorous statistical frameworks.
+                    </p>
+                    <ul style="margin-top: 20px; list-style: none;">
+                        <li style="margin-bottom: 10px;"><i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>Machine Learning:</strong> XGBoost, Scikit-Learn, Deep Learning</li>
+                        <li style="margin-bottom: 10px;"><i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>Causal Inference:</strong> IV, DiD, Propensity Matching</li>
+                        <li style="margin-bottom: 10px;"><i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>Data Stack:</strong> Python, SQL, Tableau, Streamlit</li>
+                    </ul>
+                </div>
+                <div class="chart-wrapper">
+                    <canvas id="skillChart"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="container">
+            <h2>Let's Connect</h2>
+            <p style="opacity: 0.8; margin-bottom: 30px;">Open for academic collaborations and research discussions.</p>
+            <div class="social-links">
+                <a href="https://x.com/Seiya_Hoshimi" target="_blank"><i class="fab fa-twitter"></i></a>
+                <a href="mailto:kiruohoshi@hotmail.com"><i class="fas fa-envelope"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+            <p style="margin-top: 40px; font-size: 0.8rem; opacity: 0.5;">&copy; 2025 Richard Luo. Hosted on GitHub Pages.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Toggle Details Logic
+        function toggleDetails(btn) {
+            const details = btn.nextElementSibling;
+            const icon = btn.querySelector('i');
+            if (details.style.display === "block") {
+                details.style.display = "none";
+                btn.innerHTML = 'View Details <i class="fas fa-chevron-down"></i>';
+            } else {
+                details.style.display = "block";
+                btn.innerHTML = 'Hide Details <i class="fas fa-chevron-up"></i>';
+            }
+        }
+
+        // Search Logic
+        function filterPublications() {
+            const input = document.getElementById('pubSearch');
+            const filter = input.value.toLowerCase();
+            const cards = document.getElementsByClassName('pub-card');
+
+            for (let i = 0; i < cards.length; i++) {
+                const title = cards[i].getAttribute('data-title').toLowerCase();
+                if (title.includes(filter)) {
+                    cards[i].style.display = "";
+                } else {
+                    cards[i].style.display = "none";
+                }
+            }
+        }
+
+        // Radar Chart Logic (Chart.js)
+        const ctx = document.getElementById('skillChart').getContext('2d');
+        const skillChart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: ['Machine Learning', 'Econometrics', 'Data Science', 'Causal Inference', 'Bio Med'],
+                datasets: [{
+                    label: 'Skill Level',
+                    data: [5, 4, 5, 4, 3],
+                    backgroundColor: 'rgba(11, 61, 145, 0.2)',
+                    borderColor: 'rgba(11, 61, 145, 1)',
+                    pointBackgroundColor: '#fff',
+                    pointBorderColor: '#0B3D91',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: '#0B3D91'
+                }]
+            },
+            options: {
+                scales: {
+                    r: {
+                        angleLines: { display: true, color: 'rgba(0,0,0,0.1)' },
+                        suggestedMin: 0,
+                        suggestedMax: 5,
+                        ticks: { backdropColor: 'transparent' }
+                    }
+                },
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
