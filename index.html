@@ -28,18 +28,15 @@
             color: var(--text);
             line-height: 1.6;
             background-image: radial-gradient(#0B3D91 0.5px, transparent 0.5px);
-            background-size: 30px 30px; /* Dot matrix pattern */
+            background-size: 30px 30px;
         }
 
-        /* Typography */
         h1, h2, h3 { color: var(--primary); font-family: 'Playfair Display', serif; }
         .highlight { color: var(--accent); font-weight: 600; }
 
-        /* Layout */
         .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
         section { padding: 80px 0; }
 
-        /* Navigation */
         nav {
             position: fixed; top: 0; width: 100%; z-index: 1000;
             background: rgba(255, 255, 255, 0.85);
@@ -50,12 +47,27 @@
             display: flex; justify-content: space-between; align-items: center; height: 70px;
         }
         .logo { font-weight: 700; font-size: 1.2rem; color: var(--primary); text-decoration: none; }
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
         .nav-links a {
             margin-left: 30px; text-decoration: none; color: #555; font-size: 0.9rem; transition: 0.3s;
         }
         .nav-links a:hover, .nav-links a.active { color: var(--primary); font-weight: 600; }
 
-        /* Hero Section */
+        .lang-toggle {
+            margin-left: 20px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-family: inherit;
+        }
+
         .hero {
             min-height: 100vh; display: flex; align-items: center; justify-content: center;
             padding-top: 80px;
@@ -93,7 +105,6 @@
             color: var(--primary); border-radius: 20px; font-size: 0.8rem; margin-bottom: 15px;
         }
 
-        /* Cards */
         .card {
             background: white; border-radius: 12px; padding: 30px; margin-bottom: 25px;
             box-shadow: var(--shadow); border: 1px solid rgba(0,0,0,0.02);
@@ -111,28 +122,25 @@
         }
         .toggle-btn i { transition: transform 0.3s; }
 
-        /* Input */
         .search-box {
             width: 100%; padding: 15px; border: 2px solid #eee; border-radius: 8px;
             margin-bottom: 30px; font-family: inherit; outline: none; transition: 0.3s;
         }
         .search-box:focus { border-color: var(--primary); }
 
-        /* Chart Section */
         .skills-container {
             display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;
         }
         .chart-wrapper { position: relative; height: 400px; width: 100%; }
 
-        /* Footer */
         footer { background: var(--primary); color: white; padding: 50px 0; text-align: center; }
         .social-links a { color: white; margin: 0 15px; font-size: 1.5rem; transition: 0.3s; }
         .social-links a:hover { color: var(--accent); }
 
-        /* Responsive */
         @media (max-width: 768px) {
             .hero-grid, .skills-container { grid-template-columns: 1fr; }
-            .nav-links { display: none; } /* Mobile menu simplified for demo */
+            .nav-links a { display: none; }
+            .lang-toggle { margin-left: 0; }
         }
     </style>
 </head>
@@ -140,12 +148,13 @@
 
     <nav>
         <div class="container nav-content">
-            <a href="#" class="logo">YUCHENG / RICHARD LUO</a>
+            <a href="#" class="logo" data-i18n="logo">YUCHENG / RICHARD LUO</a>
             <div class="nav-links">
-                <a href="#home">Home</a>
-                <a href="#publications">Publications</a>
-                <a href="#projects">Projects</a>
-                <a href="#contact">Contact</a>
+                <a href="#home" data-i18n="nav_home">Home</a>
+                <a href="#publications" data-i18n="nav_publications">Publications</a>
+                <a href="#projects" data-i18n="nav_projects">Projects</a>
+                <a href="#contact" data-i18n="nav_contact">Contact</a>
+                <button id="langToggle" class="lang-toggle" onclick="toggleLanguage()">日本語</button>
             </div>
         </div>
     </nav>
@@ -156,16 +165,16 @@
                 <img src="profile.jpg" alt="Richard Luo" class="profile-img">
             </div>
             <div>
-                <span class="tag">PhD/M.Phil Applicant (2026 Cycle)</span>
-                <h1>Data Scientist.<br>Researcher.<br>Composer.</h1>
-                <p style="margin: 20px 0; font-size: 1.1rem; color: #555;">
+                <span class="tag" data-i18n="hero_tag">PhD/M.Phil Applicant (2026 Cycle)</span>
+                <h1 data-i18n-html="hero_title">Data Scientist.<br>Researcher.<br>Composer.</h1>
+                <p style="margin: 20px 0; font-size: 1.1rem; color: #555;" data-i18n-html="hero_subtitle">
                     Exploring the intersection of <span class="highlight">Quantitative Methods</span> and <span class="highlight">Social Systems</span>.
                 </p>
-                <p>
+                <p data-i18n="hero_desc">
                     I hold a B.Econ from the University of Sydney, majoring in Data Science and Econometrics. Currently focused on AI in Health, agent-based social simulation, and causal inference.
                 </p>
                 <br>
-                <button onclick="document.getElementById('publications').scrollIntoView()" style="background: var(--primary); color: white; border: none; padding: 12px 30px; border-radius: 6px; cursor: pointer; font-size: 1rem;">
+                <button onclick="document.getElementById('publications').scrollIntoView()" style="background: var(--primary); color: white; border: none; padding: 12px 30px; border-radius: 6px; cursor: pointer; font-size: 1rem;" data-i18n="hero_button">
                     View Research
                 </button>
             </div>
@@ -174,19 +183,19 @@
 
     <section id="publications">
         <div class="container">
-            <h2>Publications & Research</h2>
-            <p style="margin-bottom: 30px; color: #666;">My academic interest inquiries into econometrics, quantitative sciences and statistical machine learning.</p>
+            <h2 data-i18n="pub_title">Publications & Research</h2>
+            <p style="margin-bottom: 30px; color: #666;" data-i18n="pub_desc">My academic interest inquiries into econometrics, quantitative sciences and statistical machine learning.</p>
             
-            <input type="text" id="pubSearch" class="search-box" placeholder="Search research topics..." onkeyup="filterPublications()">
+            <input type="text" id="pubSearch" class="search-box" placeholder="Search research topics..." data-i18n-placeholder="pub_search_placeholder" onkeyup="filterPublications()">
 
-            <div class="card pub-card" data-title="Replication and Critique of David Card">
-                <div class="card-meta">Research / Econometrics</div>
-                <h3>Replication and Critique of David Card’s 1993 Work: Re-estimating Returns on Education</h3>
-                <p style="margin-top: 10px;">Revisiting causal effects of college attendance using updated instrumental variable methods in the digital age.</p>
-                <button class="toggle-btn" onclick="toggleDetails(this)">
+            <div class="card pub-card">
+                <div class="card-meta" data-i18n="pub1_meta">Research / Econometrics</div>
+                <h3 data-i18n="pub1_title">Replication and Critique of David Card’s 1993 Work: Re-estimating Returns on Education</h3>
+                <p style="margin-top: 10px;" data-i18n="pub1_summary">Revisiting causal effects of college attendance using updated instrumental variable methods in the digital age.</p>
+                <button class="toggle-btn" data-type="abstract" onclick="toggleDetails(this)">
                     Read Abstract <i class="fas fa-chevron-down"></i>
                 </button>
-                <div class="card-details">
+                <div class="card-details" data-i18n="pub1_details">
                     This research reflects my bachelor thesis. I revisits David Card’s 1993 study on the causal effect of college attendance on returns to education by leveraging a new dataset and several updated estimation methods. I re-evaluate the relationship between students’ family proximity to universities and educational outcomes, and examine how the validity of distance as an instrumental variable may have attenuated in the context of widespread internet access and remote learning. Proposing and reporting a novel discovering for the weakening IV validity linked to structural behavioral shifts under digital transformation, bringing spatiotemporal perspective to IV, a widely deployed econometric identification strategy. In addition, heterogeneous-effects analyses show that marginal returns to education are substantially higher for low-income and rural populations compared with high-income and urban groups, providing quantitative evidence that targeted higher-education subsidies can deliver disproportionately large gains for disadvantaged communities and offering concrete guidance for equity-oriented policy design.
                 </div>
             </div>
@@ -195,35 +204,35 @@
 
     <section id="projects" style="background: white;">
         <div class="container">
-            <h2>Technical Projects</h2>
-            <p style="margin-bottom: 40px; color: #666;">Applied Data Science, Machine Learning & Healthcare AI.</p>
+            <h2 data-i18n="projects_title">Technical Projects</h2>
+            <p style="margin-bottom: 40px; color: #666;" data-i18n="projects_desc">Applied Data Science, Machine Learning & Healthcare AI.</p>
 
             <div class="card">
-                <div class="card-meta"><i class="fas fa-map-marked-alt"></i> Geospatial Data</div>
-                <h3>Optimal Locations for Primary Schools in Sydney</h3>
-                <p>Data-driven identification for new school sites using POI normalization and GIS mapping.</p>
-                <button class="toggle-btn" onclick="toggleDetails(this)">View Details <i class="fas fa-chevron-down"></i></button>
-                <div class="card-details">
+                <div class="card-meta" data-i18n-html="project1_meta"><i class="fas fa-map-marked-alt"></i> Geospatial Data</div>
+                <h3 data-i18n="project1_title">Optimal Locations for Primary Schools in Sydney</h3>
+                <p data-i18n="project1_summary">Data-driven identification for new school sites using POI normalization and GIS mapping.</p>
+                <button class="toggle-btn" data-type="details" onclick="toggleDetails(this)">View Details <i class="fas fa-chevron-down"></i></button>
+                <div class="card-details" data-i18n="project1_details">
                     Integrates multiple resource indicators as points of interest (POIs), which are normalized and incorporated into a comprehensive, visualized geographic information system (GIS) map.
                 </div>
             </div>
 
             <div class="card">
-                <div class="card-meta"><i class="fas fa-dna"></i> ML Healthcare</div>
-                <h3>XGBoost Classification of Acute Leukemia</h3>
-                <p>Key biomarker discovery using the Golub et al. (1999) gene expression dataset.</p>
-                <button class="toggle-btn" onclick="toggleDetails(this)">View Details <i class="fas fa-chevron-down"></i></button>
-                <div class="card-details">
+                <div class="card-meta" data-i18n-html="project2_meta"><i class="fas fa-dna"></i> ML Healthcare</div>
+                <h3 data-i18n="project2_title">XGBoost Classification of Acute Leukemia</h3>
+                <p data-i18n="project2_summary">Key biomarker discovery using the Golub et al. (1999) gene expression dataset.</p>
+                <button class="toggle-btn" data-type="details" onclick="toggleDetails(this)">View Details <i class="fas fa-chevron-down"></i></button>
+                <div class="card-details" data-i18n="project2_details">
                     Utilized gene expression data involving EDA, cleaning, and feature engineering. Trained multiple models, selecting XGBoost as optimal for the high-dimensional, low-sample dataset.
                 </div>
             </div>
 
             <div class="card">
-                <div class="card-meta"><i class="fas fa-user-md"></i> LLM + Web App</div>
-                <h3>Genetic Risk Calculator</h3>
-                <p>A Genomic Data-Based Diagnostic Assistant using LLM & XGBoost.</p>
-                <button class="toggle-btn" onclick="toggleDetails(this)">View Details <i class="fas fa-chevron-down"></i></button>
-                <div class="card-details">
+                <div class="card-meta" data-i18n-html="project3_meta"><i class="fas fa-user-md"></i> LLM + Web App</div>
+                <h3 data-i18n="project3_title">Genetic Risk Calculator</h3>
+                <p data-i18n="project3_summary">A Genomic Data-Based Diagnostic Assistant using LLM & XGBoost.</p>
+                <button class="toggle-btn" data-type="details" onclick="toggleDetails(this)">View Details <i class="fas fa-chevron-down"></i></button>
+                <div class="card-details" data-i18n="project3_details">
                     Developed a Streamlit-based web application. Integrates a base classification model with a fine-tuned LLM to assist analysis via complex prompt engineering.
                 </div>
             </div>
@@ -234,15 +243,15 @@
         <div class="container">
             <div class="skills-container">
                 <div>
-                    <h2>Technical Expertise</h2>
-                    <p>
+                    <h2 data-i18n="skills_title">Technical Expertise</h2>
+                    <p data-i18n="skills_desc">
                         My skillset bridges the gap between traditional quantitative theory and modern computational intelligence. 
                         I specialize in interpreting complex real world data through rigorous statistical and technical frameworks.
                     </p>
                     <ul style="margin-top: 20px; list-style: none;">
-                        <li style="margin-bottom: 10px;"><i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>Machine Learning:</strong> PyTorch, JAX, TF, XGB, CatBoost, Sklearn</li>
-                        <li style="margin-bottom: 10px;"><i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>Causal Inference:</strong> SCM, DAGs, IV, DiD, PSM, IPW, EconML</li>
-                        <li style="margin-bottom: 10px;"><i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>Tech Stack:</strong> Python, R, C++, PostgreSQL, PySpark, Git, MATLAB</li>
+                        <li style="margin-bottom: 10px;" data-i18n-html="skills_item1"><i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>Machine Learning:</strong> PyTorch, JAX, TF, XGB, CatBoost, Sklearn</li>
+                        <li style="margin-bottom: 10px;" data-i18n-html="skills_item2"><i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>Causal Inference:</strong> SCM, DAGs, IV, DiD, PSM, IPW, EconML</li>
+                        <li style="margin-bottom: 10px;" data-i18n-html="skills_item3"><i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>Tech Stack:</strong> Python, R, C++, PostgreSQL, PySpark, Git, MATLAB</li>
                     </ul>
                 </div>
                 <div class="chart-wrapper">
@@ -254,40 +263,212 @@
 
     <footer id="contact">
         <div class="container">
-            <h2 style="color: white;">Let's Connect</h2>
-            <p style="opacity: 0.8; margin-bottom: 30px;">Open for academic collaborations and research discussions.</p>
+            <h2 style="color: white;" data-i18n="contact_title">Let's Connect</h2>
+            <p style="opacity: 0.8; margin-bottom: 30px;" data-i18n="contact_desc">Open for academic collaborations and research discussions.</p>
             <div class="social-links">
                 <a href="https://x.com/Seiya_Hoshimi" target="_blank"><i class="fab fa-twitter"></i></a>
                 <a href="mailto:kiruohoshi@hotmail.com"><i class="fas fa-envelope"></i></a>
                 <a href="https://github.com/Aquariusia"><i class="fab fa-github"></i></a>
             </div>
-            <p style="margin-top: 40px; font-size: 0.8rem; opacity: 0.5;">&copy; 2026 Richard Luo. Hosted on GitHub Pages.</p>
+            <p style="margin-top: 40px; font-size: 0.8rem; opacity: 0.5;" data-i18n-html="footer_copy">&copy; 2026 Richard Luo. Hosted on GitHub Pages.</p>
         </div>
     </footer>
 
     <script>
-        // Toggle Details Logic
+        const translations = {
+            en: {
+                page_title: "Richard Luo | Research Portfolio",
+                logo: "YUCHENG / RICHARD LUO",
+                nav_home: "Home",
+                nav_publications: "Publications",
+                nav_projects: "Projects",
+                nav_contact: "Contact",
+                hero_tag: "PhD/M.Phil Applicant (2026 Cycle)",
+                hero_title: "Data Scientist.<br>Researcher.<br>Composer.",
+                hero_subtitle: 'Exploring the intersection of <span class="highlight">Quantitative Methods</span> and <span class="highlight">Social Systems</span>.',
+                hero_desc: "I hold a B.Econ from the University of Sydney, majoring in Data Science and Econometrics. Currently focused on AI in Health, agent-based social simulation, and causal inference.",
+                hero_button: "View Research",
+
+                pub_title: "Publications & Research",
+                pub_desc: "My academic interest inquiries into econometrics, quantitative sciences and statistical machine learning.",
+                pub_search_placeholder: "Search research topics...",
+                pub1_meta: "Research / Econometrics",
+                pub1_title: "Replication and Critique of David Card’s 1993 Work: Re-estimating Returns on Education",
+                pub1_summary: "Revisiting causal effects of college attendance using updated instrumental variable methods in the digital age.",
+                pub1_details: "This research reflects my bachelor thesis. I revisits David Card’s 1993 study on the causal effect of college attendance on returns to education by leveraging a new dataset and several updated estimation methods. I re-evaluate the relationship between students’ family proximity to universities and educational outcomes, and examine how the validity of distance as an instrumental variable may have attenuated in the context of widespread internet access and remote learning. Proposing and reporting a novel discovering for the weakening IV validity linked to structural behavioral shifts under digital transformation, bringing spatiotemporal perspective to IV, a widely deployed econometric identification strategy. In addition, heterogeneous-effects analyses show that marginal returns to education are substantially higher for low-income and rural populations compared with high-income and urban groups, providing quantitative evidence that targeted higher-education subsidies can deliver disproportionately large gains for disadvantaged communities and offering concrete guidance for equity-oriented policy design.",
+
+                projects_title: "Technical Projects",
+                projects_desc: "Applied Data Science, Machine Learning & Healthcare AI.",
+                project1_meta: '<i class="fas fa-map-marked-alt"></i> Geospatial Data',
+                project1_title: "Optimal Locations for Primary Schools in Sydney",
+                project1_summary: "Data-driven identification for new school sites using POI normalization and GIS mapping.",
+                project1_details: "Integrates multiple resource indicators as points of interest (POIs), which are normalized and incorporated into a comprehensive, visualized geographic information system (GIS) map.",
+
+                project2_meta: '<i class="fas fa-dna"></i> ML Healthcare',
+                project2_title: "XGBoost Classification of Acute Leukemia",
+                project2_summary: "Key biomarker discovery using the Golub et al. (1999) gene expression dataset.",
+                project2_details: "Utilized gene expression data involving EDA, cleaning, and feature engineering. Trained multiple models, selecting XGBoost as optimal for the high-dimensional, low-sample dataset.",
+
+                project3_meta: '<i class="fas fa-user-md"></i> LLM + Web App',
+                project3_title: "Genetic Risk Calculator",
+                project3_summary: "A Genomic Data-Based Diagnostic Assistant using LLM & XGBoost.",
+                project3_details: "Developed a Streamlit-based web application. Integrates a base classification model with a fine-tuned LLM to assist analysis via complex prompt engineering.",
+
+                skills_title: "Technical Expertise",
+                skills_desc: "My skillset bridges the gap between traditional quantitative theory and modern computational intelligence. I specialize in interpreting complex real world data through rigorous statistical and technical frameworks.",
+                skills_item1: '<i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>Machine Learning:</strong> PyTorch, JAX, TF, XGB, CatBoost, Sklearn',
+                skills_item2: '<i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>Causal Inference:</strong> SCM, DAGs, IV, DiD, PSM, IPW, EconML',
+                skills_item3: '<i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>Tech Stack:</strong> Python, R, C++, PostgreSQL, PySpark, Git, MATLAB',
+
+                contact_title: "Let's Connect",
+                contact_desc: "Open for academic collaborations and research discussions.",
+                footer_copy: "&copy; 2026 Richard Luo. Hosted on GitHub Pages.",
+
+                toggle_view: "View Details",
+                toggle_hide: "Hide Details",
+                toggle_abstract: "Read Abstract",
+                lang_button: "日本語",
+                chart_labels: ["Machine Learning", "Econometrics", "Data Science", "Causal Inference", "Bio Med"]
+            },
+            ja: {
+                page_title: "羅鈺程 | 研究ポートフォリオ",
+                logo: "YUCHENG / RICHARD LUO",
+                nav_home: "ホーム",
+                nav_publications: "研究業績",
+                nav_projects: "プロジェクト",
+                nav_contact: "連絡先",
+                hero_tag: "PhD/M.Phil 出願予定者（2026年度）",
+                hero_title: "データサイエンティスト。<br>研究者。<br>作曲家。",
+                hero_subtitle: '<span class="highlight">定量分析</span>と<span class="highlight">社会システム</span>の交点を探究しています。',
+                hero_desc: "シドニー大学で経済学士号を取得し、Data Science と Econometrics を専攻しました。現在は AI in Health、エージェントベースの社会シミュレーション、因果推論を主な関心領域としています。",
+                hero_button: "研究を見る",
+
+                pub_title: "研究業績・研究関心",
+                pub_desc: "計量経済学、定量科学、統計的機械学習を中心に研究しています。",
+                pub_search_placeholder: "研究テーマを検索...",
+                pub1_meta: "研究 / 計量経済学",
+                pub1_title: "David Card（1993）の研究の再検証と批判的考察：教育収益率の再推定",
+                pub1_summary: "デジタル時代において、更新された操作変数法を用いながら大学進学の因果効果を再検討する研究。",
+                pub1_details: "本研究は学士論文に基づくものです。David Card（1993）による教育収益率に対する大学進学の因果効果の研究を、新たなデータセットと複数の更新された推定手法を用いて再検証しました。学生の家族所在地と大学への近接性が教育成果に与える関係を再評価するとともに、インターネットの普及と遠隔学習の拡大という文脈において、距離を操作変数とする妥当性がどのように弱まった可能性があるかを検討しました。特に、デジタル化による構造的な行動変化が操作変数の有効性を弱めたという新たな示唆を提示し、広く用いられる計量経済学的識別戦略に時空間的な視点を導入しています。さらに、異質性効果の分析により、低所得層および農村部の集団では、高所得層や都市部の集団に比べて教育収益率の限界効果が大きいことを示し、高等教育補助金の重点的配分が不利なコミュニティに対してより大きな便益をもたらしうることを定量的に示しました。",
+
+                projects_title: "技術プロジェクト",
+                projects_desc: "応用データサイエンス、機械学習、医療AI。",
+                project1_meta: '<i class="fas fa-map-marked-alt"></i> 地理空間データ',
+                project1_title: "シドニーにおける小学校新設候補地の最適化",
+                project1_summary: "POI の正規化と GIS マッピングを用いて新たな学校候補地を特定するデータ駆動型研究。",
+                project1_details: "複数の資源指標を POI（Points of Interest）として統合し、正規化した上で、包括的かつ可視化された地理情報システム（GIS）マップに組み込んだプロジェクトです。",
+
+                project2_meta: '<i class="fas fa-dna"></i> 医療機械学習',
+                project2_title: "急性白血病の XGBoost 分類",
+                project2_summary: "Golub et al.（1999）の遺伝子発現データセットを用いた主要バイオマーカー探索。",
+                project2_details: "遺伝子発現データに対して EDA、クリーニング、特徴量エンジニアリングを実施し、複数モデルを比較した結果、高次元・少標本データに最適な手法として XGBoost を採用しました。",
+
+                project3_meta: '<i class="fas fa-user-md"></i> LLM + Web アプリ',
+                project3_title: "遺伝的リスク計算機",
+                project3_summary: "LLM と XGBoost を用いたゲノムデータベース診断支援システム。",
+                project3_details: "Streamlit ベースの Web アプリケーションを開発し、基礎分類モデルと微調整済み LLM を統合することで、高度なプロンプト設計を通じた分析支援を実現しました。",
+
+                skills_title: "技術的専門性",
+                skills_desc: "私のスキルセットは、伝統的な定量理論と現代的な計算知能をつなぐものです。厳密な統計的・技術的枠組みに基づき、複雑な現実世界データを解釈することを得意としています。",
+                skills_item1: '<i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>機械学習:</strong> PyTorch, JAX, TF, XGB, CatBoost, Sklearn',
+                skills_item2: '<i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>因果推論:</strong> SCM, DAGs, IV, DiD, PSM, IPW, EconML',
+                skills_item3: '<i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>技術スタック:</strong> Python, R, C++, PostgreSQL, PySpark, Git, MATLAB',
+
+                contact_title: "ご連絡はこちら",
+                contact_desc: "学術的な共同研究や研究に関するご相談を歓迎します。",
+                footer_copy: "&copy; 2026 Richard Luo. GitHub Pages で公開中。",
+
+                toggle_view: "詳細を見る",
+                toggle_hide: "詳細を閉じる",
+                toggle_abstract: "要旨を読む",
+                lang_button: "English",
+                chart_labels: ["機械学習", "計量経済学", "データサイエンス", "因果推論", "バイオ医療"]
+            }
+        };
+
+        function applyTranslations(lang) {
+            document.documentElement.lang = lang;
+            document.title = translations[lang].page_title;
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang][key] !== undefined) {
+                    el.textContent = translations[lang][key];
+                }
+            });
+
+            document.querySelectorAll('[data-i18n-html]').forEach(el => {
+                const key = el.getAttribute('data-i18n-html');
+                if (translations[lang][key] !== undefined) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (translations[lang][key] !== undefined) {
+                    el.placeholder = translations[lang][key];
+                }
+            });
+
+            const langToggle = document.getElementById('langToggle');
+            if (langToggle) {
+                langToggle.textContent = translations[lang].lang_button;
+            }
+
+            updateToggleButtonTexts(lang);
+            updateChartLabels(lang);
+        }
+
+        function setLanguage(lang) {
+            localStorage.setItem('language', lang);
+            applyTranslations(lang);
+        }
+
+        function toggleLanguage() {
+            const current = localStorage.getItem('language') || 'en';
+            const next = current === 'en' ? 'ja' : 'en';
+            setLanguage(next);
+        }
+
+        function updateToggleButtonTexts(lang) {
+            document.querySelectorAll('.toggle-btn').forEach(btn => {
+                const details = btn.nextElementSibling;
+                const isOpen = details && details.style.display === 'block';
+                const type = btn.dataset.type || 'details';
+
+                if (isOpen) {
+                    btn.innerHTML = `${translations[lang].toggle_hide} <i class="fas fa-chevron-up"></i>`;
+                } else {
+                    const label = type === 'abstract' ? translations[lang].toggle_abstract : translations[lang].toggle_view;
+                    btn.innerHTML = `${label} <i class="fas fa-chevron-down"></i>`;
+                }
+            });
+        }
+
         function toggleDetails(btn) {
             const details = btn.nextElementSibling;
-            const icon = btn.querySelector('i');
+            const lang = localStorage.getItem('language') || 'en';
+            const type = btn.dataset.type || 'details';
+
             if (details.style.display === "block") {
                 details.style.display = "none";
-                btn.innerHTML = 'View Details <i class="fas fa-chevron-down"></i>';
+                const label = type === 'abstract' ? translations[lang].toggle_abstract : translations[lang].toggle_view;
+                btn.innerHTML = `${label} <i class="fas fa-chevron-down"></i>`;
             } else {
                 details.style.display = "block";
-                btn.innerHTML = 'Hide Details <i class="fas fa-chevron-up"></i>';
+                btn.innerHTML = `${translations[lang].toggle_hide} <i class="fas fa-chevron-up"></i>`;
             }
         }
 
-        // Search Logic
         function filterPublications() {
             const input = document.getElementById('pubSearch');
             const filter = input.value.toLowerCase();
             const cards = document.getElementsByClassName('pub-card');
 
             for (let i = 0; i < cards.length; i++) {
-                const title = cards[i].getAttribute('data-title').toLowerCase();
-                if (title.includes(filter)) {
+                const searchableText = cards[i].innerText.toLowerCase();
+                if (searchableText.includes(filter)) {
                     cards[i].style.display = "";
                 } else {
                     cards[i].style.display = "none";
@@ -295,7 +476,6 @@
             }
         }
 
-        // Radar Chart Logic (Chart.js)
         const ctx = document.getElementById('skillChart').getContext('2d');
         const skillChart = new Chart(ctx, {
             type: 'radar',
@@ -325,6 +505,17 @@
                     legend: { display: false }
                 }
             }
+        });
+
+        function updateChartLabels(lang) {
+            if (!skillChart) return;
+            skillChart.data.labels = translations[lang].chart_labels;
+            skillChart.update();
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('language') || 'en';
+            applyTranslations(savedLang);
         });
     </script>
 </body>
