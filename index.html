@@ -381,8 +381,62 @@
                 toggle_view: "詳細を見る",
                 toggle_hide: "詳細を閉じる",
                 toggle_abstract: "要旨を読む",
-                lang_button: "English",
+                lang_button: "Français", // Changed from "English" to point to the next language
                 chart_labels: ["機械学習", "計量経済学", "データサイエンス", "因果推論", "バイオ医療"]
+            },
+            fr: {
+                page_title: "Richard Luo | Portfolio de Recherche",
+                logo: "YUCHENG / RICHARD LUO",
+                nav_home: "Accueil",
+                nav_publications: "Publications",
+                nav_projects: "Projets",
+                nav_contact: "Contact",
+                hero_tag: "Candidat PhD/M.Phil (Cycle 2026)",
+                hero_title: "Data Scientist.<br>Chercheur.<br>Compositeur.",
+                hero_subtitle: 'Exploration de l\'intersection entre les <span class="highlight">Méthodes Quantitatives</span> et les <span class="highlight">Systèmes Sociaux</span>.',
+                hero_desc: "Bonjour, je suis Richard. Je poursuis actuellement un M.Phil en Sciences à l'UNIGE. Je suis titulaire d'un B.Econ de l'Université de Sydney, avec une spécialisation en Data Science et Économétrie. Actuellement concentré sur l'IA dans la santé, la simulation sociale basée sur des agents et l'inférence causale.",
+                hero_button: "Voir la Recherche",
+
+                pub_title: "Publications & Recherche",
+                pub_desc: "Mes intérêts académiques portent sur l'économétrie, les sciences quantitatives et l'apprentissage automatique statistique.",
+                pub_search_placeholder: "Rechercher des sujets de recherche...",
+                pub1_meta: "Recherche / Économétrie",
+                pub1_title: "Réplication et Critique des Travaux de David Card (1993) : Réestimation des Rendements de l'Éducation",
+                pub1_summary: "Réévaluation des effets causaux de la fréquentation universitaire à l'aide de méthodes de variables instrumentales actualisées à l'ère numérique.",
+                pub1_details: "Cette recherche reflète mon mémoire de licence. Je revisite l'étude de David Card (1993) sur l'effet causal de la fréquentation universitaire sur les rendements de l'éducation en exploitant un nouvel ensemble de données et plusieurs méthodes d'estimation actualisées. Je réévalue la relation entre la proximité familiale des étudiants avec les universités et les résultats éducatifs, et j'examine comment la validité de la distance comme variable instrumentale a pu s'atténuer dans le contexte de l'accès généralisé à Internet et de l'apprentissage à distance. Proposant et rapportant une nouvelle découverte sur l'affaiblissement de la validité de la VI liée aux changements comportementaux structurels sous la transformation numérique, apportant une perspective spatio-temporelle à la VI, une stratégie d'identification économétrique largement déployée. De plus, les analyses d'effets hétérogènes montrent que les rendements marginaux de l'éducation sont substantiellement plus élevés pour les populations à faible revenu et rurales par rapport aux groupes urbains et à revenu élevé, fournissant des preuves quantitatives que les subventions à l'enseignement supérieur ciblées peuvent apporter des gains disproportionnés pour les communautés défavorisées et offrant des conseils concrets pour la conception de politiques orientées vers l'équité.",
+
+                projects_title: "Projets Techniques",
+                projects_desc: "Science des Données Appliquée, Machine Learning & IA en Santé.",
+                project1_meta: '<i class="fas fa-map-marked-alt"></i> Données Géospatiales',
+                project1_title: "Emplacements Optimaux pour les Écoles Primaires à Sydney",
+                project1_summary: "Identification basée sur les données pour de nouveaux sites scolaires utilisant la normalisation des POI et la cartographie SIG.",
+                project1_details: "Intègre de multiples indicateurs de ressources en tant que points d'intérêt (POI), qui sont normalisés et intégrés dans une carte complète et visualisée du système d'information géographique (SIG).",
+
+                project2_meta: '<i class="fas fa-dna"></i> ML en Santé',
+                project2_title: "Classification de la Leucémie Aiguë avec XGBoost",
+                project2_summary: "Découverte de biomarqueurs clés à l'aide de l'ensemble de données d'expression génique de Golub et al. (1999).",
+                project2_details: "Utilisation des données d'expression génique impliquant l'EDA, le nettoyage et l'ingénierie des caractéristiques. Formation de plusieurs modèles, en sélectionnant XGBoost comme optimal pour l'ensemble de données de haute dimension et à faible échantillon.",
+
+                project3_meta: '<i class="fas fa-user-md"></i> LLM + Application Web',
+                project3_title: "Calculateur de Risque Génétique",
+                project3_summary: "Un assistant de diagnostic basé sur des données génomiques utilisant LLM & XGBoost.",
+                project3_details: "Développement d'une application web basée sur Streamlit. Intègre un modèle de classification de base avec un LLM affiné pour aider à l'analyse via une ingénierie de prompt complexe.",
+
+                skills_title: "Expertise Technique",
+                skills_desc: "Mes compétences comblent le fossé entre la théorie quantitative traditionnelle et l'intelligence computationnelle moderne. Je me spécialise dans l'interprétation de données complexes du monde réel grâce à des cadres statistiques et techniques rigoureux.",
+                skills_item1: '<i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>Machine Learning :</strong> PyTorch, JAX, TF, XGB, CatBoost, Sklearn',
+                skills_item2: '<i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>Inférence Causale :</strong> SCM, DAGs, IV, DiD, PSM, IPW, EconML',
+                skills_item3: '<i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>Stack Technique :</strong> Python, R, C++, PostgreSQL, PySpark, Git, MATLAB',
+
+                contact_title: "Restons en Contact",
+                contact_desc: "Ouvert aux collaborations académiques et aux discussions de recherche.",
+                footer_copy: "&copy; 2026 Richard Luo. Hébergé sur GitHub Pages.",
+
+                toggle_view: "Voir les Détails",
+                toggle_hide: "Masquer les Détails",
+                toggle_abstract: "Lire le Résumé",
+                lang_button: "English",
+                chart_labels: ["Machine Learning", "Économétrie", "Data Science", "Inférence Causale", "Bio Med"]
             }
         };
 
@@ -427,7 +481,15 @@
 
         function toggleLanguage() {
             const current = localStorage.getItem('language') || 'en';
-            const next = current === 'en' ? 'ja' : 'en';
+            let next;
+            // Cycle through English -> Japanese -> French -> English
+            if (current === 'en') {
+                next = 'ja';
+            } else if (current === 'ja') {
+                next = 'fr';
+            } else {
+                next = 'en';
+            }
             setLanguage(next);
         }
 
