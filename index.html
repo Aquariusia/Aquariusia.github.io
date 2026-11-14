@@ -3,582 +3,878 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Richard Luo | Research Portfolio</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <title>Richard Luo | Research Notebook</title>
+    <meta name="description" content="Yucheng (Richard) Luo — data scientist, researcher and composer working on causal inference, AI in health, and agent-based social simulation. MSc student at the University of Geneva.">
+    <meta property="og:title" content="Richard Luo | Research Notebook">
+    <meta property="og:description" content="Causal inference, AI in health, and agent-based social simulation — with figures you can run.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="profile.jpg">
+    <meta name="theme-color" content="#fbfaf6">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23fbfaf6%22/><g stroke=%22%231d1c1a%22 stroke-width=%223%22><path d=%22M10 26h80M10 38h80M10 50h80M10 62h80M10 74h80%22/></g><ellipse cx=%2252%22 cy=%2250%22 rx=%2213%22 ry=%229.5%22 fill=%22%23b3402a%22 transform=%22rotate(-20 52 50)%22/></svg>">
+
+    <!-- Apply saved theme before paint to avoid a flash -->
+    <script>
+        try {
+            var t = localStorage.getItem('theme');
+            if (t === 'light' || t === 'dark') document.documentElement.setAttribute('data-theme', t);
+        } catch (e) {}
+    </script>
+
+    <!-- Fallback faces for systems without Sylfaen (macOS, iOS, Android, Linux) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz@8..60&family=Noto+Serif+JP&display=swap" rel="stylesheet">
 
     <style>
+        /* ================= Tokens ================= */
         :root {
-            --primary: #0B3D91;
-            --accent: #4facfe;
-            --bg: #FAFAFA;
-            --text: #333;
-            --glass: rgba(255, 255, 255, 0.9);
-            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+            --paper: #fbfaf6;
+            --ink: #1d1c1a;
+            --ink-2: #5b5952;
+            --ink-3: #8d8a80;
+            --rule: #d9d5ca;
+            --accent: #b3402a;          /* proofreader's red */
+            --group-a: #b3402a;
+            --group-b: #2f4b7c;
+            --wash: #f3f1ea;
+            /* Sylfaen ships with Windows only and has a single weight, so the design uses no bold or italic */
+            --serif: Sylfaen, 'Source Serif 4', 'Noto Serif JP', Georgia, 'Times New Roman', serif;
+            --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            --text: 580px;
+            --margin-w: 216px;
+            --margin-gap: 40px;
+            color-scheme: light;
+        }
+        @media (prefers-color-scheme: dark) {
+            :root:not([data-theme="light"]) {
+                --paper: #151514;
+                --ink: #e8e5dc;
+                --ink-2: #aeaa9f;
+                --ink-3: #807d74;
+                --rule: #33322e;
+                --accent: #e38a70;
+                --group-a: #e38a70;
+                --group-b: #8fb0e6;
+                --wash: #1d1d1b;
+                color-scheme: dark;
+            }
+        }
+        :root[data-theme="dark"] {
+            --paper: #151514;
+            --ink: #e8e5dc;
+            --ink-2: #aeaa9f;
+            --ink-3: #807d74;
+            --rule: #33322e;
+            --accent: #e38a70;
+            --group-a: #e38a70;
+            --group-b: #8fb0e6;
+            --wash: #1d1d1b;
+            color-scheme: dark;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
-        
+        /* ================= Base ================= */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; scroll-padding-top: 76px; -webkit-text-size-adjust: 100%; }
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
-            color: var(--text);
-            line-height: 1.6;
-            background-image: radial-gradient(#0B3D91 0.5px, transparent 0.5px);
-            background-size: 30px 30px;
+            font-family: var(--serif); font-weight: 400; font-size: 18px; line-height: 1.68;
+            background: var(--paper); color: var(--ink);
+            -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+            counter-reset: sn;
+        }
+        html:lang(ja) body { line-height: 1.9; }
+        h1, h2, h3, b, strong, th { font-weight: 400; }
+        em, i { font-style: normal; }
+        a { color: inherit; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+        a:hover { color: var(--accent); }
+        :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+        button, input { font: inherit; color: inherit; }
+        .skip-link { position: absolute; left: -9999px; top: 8px; background: var(--ink); color: var(--paper); padding: 6px 12px; z-index: 100; }
+        .skip-link:focus { left: 8px; }
+
+        .label {
+            font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); line-height: 1.5;
+        }
+        .page { max-width: calc(var(--text) + var(--margin-gap) + var(--margin-w) + 48px); margin: 0 auto; padding-left: 24px; padding-right: 24px; }
+        .body { max-width: var(--text); }
+        .body::after { content: ""; display: block; clear: both; }
+        p + p { margin-top: 0.95em; }
+
+        /* ================= Margin notes ================= */
+        .sn, .marginal {
+            float: right; clear: right;
+            width: var(--margin-w); margin-right: calc(-1 * (var(--margin-w) + var(--margin-gap)));
+            font-size: 0.82rem; line-height: 1.5; color: var(--ink-2);
+            margin-bottom: 14px;
+        }
+        .sn-ref { counter-increment: sn; }
+        .sn-ref::after { content: counter(sn); font-size: 0.68em; vertical-align: super; line-height: 0; color: var(--accent); margin-left: 1px; }
+        .sn::before { content: counter(sn); font-size: 0.72em; vertical-align: super; line-height: 0; color: var(--accent); margin-right: 4px; }
+        .sn.plain::before { content: none; }
+
+        /* ================= Header ================= */
+        header.site {
+            position: sticky; top: 0; z-index: 50;
+            background: color-mix(in srgb, var(--paper) 93%, transparent);
+            backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+            border-bottom: 1px solid var(--rule);
+        }
+        .site-inner { display: flex; align-items: baseline; gap: 10px 26px; flex-wrap: wrap; padding-top: 14px; padding-bottom: 12px; }
+        .site-name { text-decoration: none; white-space: nowrap; }
+        .site-name .dot { color: var(--accent); }
+        .site-nav { display: flex; gap: 20px; flex: 1; font-size: 0.9rem; overflow-x: auto; scrollbar-width: none; }
+        .site-nav::-webkit-scrollbar { display: none; }
+        .site-nav a { color: var(--ink-2); text-decoration: none; white-space: nowrap; }
+        .site-nav a:hover, .site-nav a.active { color: var(--ink); }
+        .site-nav a.active { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 6px; }
+        .site-tools { display: flex; align-items: baseline; gap: 14px; font-size: 0.84rem; white-space: nowrap; }
+        .lang-switch button, .theme-btn { background: none; border: 0; color: var(--ink-3); cursor: pointer; padding: 0 1px; }
+        .lang-switch button[aria-pressed="true"] { color: var(--ink); text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 4px; }
+        .lang-switch .sep { color: var(--ink-3); margin: 0 5px; }
+        .theme-btn { font-size: 1.05rem; line-height: 1; }
+        .theme-btn:hover, .lang-switch button:hover { color: var(--ink); }
+
+        /* ================= Masthead ================= */
+        .masthead { padding-top: 76px; padding-bottom: 12px; }
+        h1 { font-size: clamp(2.3rem, 6.4vw, 3.1rem); line-height: 1.1; letter-spacing: -0.01em; margin-top: 14px; }
+        .roles { margin-top: 16px; color: var(--ink-2); font-size: 1.08rem; }
+        .roles .dot { color: var(--accent); margin: 0 6px; }
+        .intro { margin-top: 30px; font-size: 1.08rem; }
+        .portrait { display: block; width: 100%; aspect-ratio: 4 / 5; object-fit: cover; background: var(--wash); border: 1px solid var(--rule); }
+        .marginal .links { margin-top: 12px; display: grid; gap: 3px; }
+        .marginal .links .label { margin-bottom: 2px; }
+
+        /* ================= Sections ================= */
+        section.sec { padding-top: 56px; padding-bottom: 8px; }
+        h2 { font-size: 1.6rem; line-height: 1.2; margin-bottom: 18px; display: flex; align-items: baseline; gap: 14px; }
+        h2 .ord { color: var(--accent); font-size: 0.95rem; letter-spacing: 0.08em; min-width: 1.6em; }
+        h2::after { content: ""; flex: 1; border-top: 1px solid var(--rule); transform: translateY(-0.3em); }
+        h3 { font-size: 1.22rem; line-height: 1.32; margin-top: 4px; }
+        .entry { margin-top: 30px; }
+        .entry p { margin-top: 8px; }
+        details { margin-top: 10px; }
+        summary { cursor: pointer; list-style: none; display: inline-block; font-size: 0.92rem; color: var(--ink-2); }
+        summary::-webkit-details-marker { display: none; }
+        summary::before { content: "+"; color: var(--accent); margin-right: 8px; display: inline-block; width: 0.6em; }
+        details[open] summary::before { content: "–"; }
+        summary:hover { color: var(--ink); }
+        details p { font-size: 0.95rem; color: var(--ink-2); padding-left: 16px; border-left: 1px solid var(--rule); margin-top: 10px; }
+
+        /* ================= Figures ================= */
+        figure { margin: 34px 0 30px; }
+        figure.wide { max-width: none; }
+        .fig-frame { border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); padding: 14px 0; }
+        figcaption { font-size: 0.88rem; line-height: 1.52; margin-top: 10px; max-width: var(--text); }
+        figcaption .fig-no { letter-spacing: 0.12em; text-transform: uppercase; font-size: 0.72rem; color: var(--accent); margin-right: 8px; }
+        figcaption .notes { display: block; margin-top: 5px; color: var(--ink-2); }
+        .fig-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 22px; font-size: 0.84rem; color: var(--ink-2); margin-top: 10px; }
+        .btn {
+            background: none; border: 1px solid var(--rule); padding: 2px 12px; cursor: pointer; font-size: 0.84rem; color: var(--ink);
+        }
+        .btn:hover { border-color: var(--ink-3); }
+        .btn[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+        .seg { display: inline-flex; }
+        .seg .btn + .btn { border-left: 0; }
+        .readout { font-variant-numeric: tabular-nums; }
+        .readout b { color: var(--ink); }
+
+        /* Fig. 1 — simulation */
+        #sim { display: block; width: 100%; height: 232px; }
+        input[type="range"] { accent-color: var(--accent); width: 130px; vertical-align: middle; }
+        .legend { display: inline-flex; align-items: center; gap: 6px; }
+        .legend i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+        #spark { width: 120px; height: 22px; vertical-align: middle; overflow: visible; }
+        #spark polyline { fill: none; stroke: var(--accent); stroke-width: 1.5; }
+        #spark line { stroke: var(--rule); stroke-width: 1; }
+
+        /* Fig. 2 — causal graph */
+        #dag { display: block; width: 100%; height: auto; }
+        #dag .node circle { fill: var(--paper); stroke: var(--ink); stroke-width: 1.5; }
+        #dag .node.latent circle { stroke-dasharray: 4 4; }
+        #dag .node text.sym { font-size: 21px; text-anchor: middle; fill: var(--ink); }
+        #dag text.lab { font-size: 14.5px; fill: var(--ink-2); text-anchor: middle; }
+        #dag .edge { stroke: var(--ink); stroke-width: 1.5; fill: none; transition: opacity .5s, stroke-width .5s; }
+        #dag .edge.latent { stroke-dasharray: 4 4; stroke: var(--ink-3); }
+        #dag marker path { fill: var(--ink); }
+        #dag marker#arrL path { fill: var(--ink-3); }
+        #dag .edge.zd { stroke: var(--accent); stroke-width: 2.5; }
+        #dag marker#arrZ path { fill: var(--accent); }
+        #dag text.zd-lab { font-size: 13px; fill: var(--accent); text-anchor: middle; }
+        #dag .when-digital { display: none; }
+        #dag.digital .when-digital { display: inline; }
+        #dag.digital .when-classic { display: none; }
+        #dag.digital .edge.zd { opacity: 0.35; stroke-width: 1.2; stroke-dasharray: 6 5; }
+
+        /* Fig. 3 — dot plot */
+        .dotplot { display: grid; grid-template-columns: max-content minmax(150px, 1fr) minmax(0, 1.5fr); column-gap: 28px; align-items: center; font-size: 0.93rem; }
+        .dotplot > * { padding: 9px 0; }
+        .dotplot .head { padding: 0 0 8px; border-bottom: 1px solid var(--rule); align-self: end; }
+        .dotplot .tools { color: var(--ink-2); font-size: 0.88rem; line-height: 1.45; }
+        .dotplot .track { position: relative; height: 38px; padding: 0; margin: 0 7px; background: repeating-linear-gradient(to right, var(--rule) 0 1px, transparent 1px 25%); border-right: 1px solid var(--rule); }
+        .dotplot .track::before { content: ""; position: absolute; left: 0; right: 0; top: 50%; border-top: 1px dotted var(--ink-3); }
+        .dotplot .dot { position: absolute; top: 50%; width: 13px; height: 13px; margin: -6.5px 0 0 -6.5px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px var(--paper); }
+        .dotplot .axis { position: relative; height: 26px; padding: 0; margin: 0 7px; border-top: 1px solid var(--ink); font-size: 0.74rem; color: var(--ink-3); font-variant-numeric: tabular-nums; }
+        .dotplot .axis span { position: absolute; top: 4px; transform: translateX(-50%); }
+        .dotplot .axis span::before { content: ""; position: absolute; left: 50%; top: -4px; height: 4px; border-left: 1px solid var(--ink); }
+        /* ================= Lists ================= */
+        .kv { display: grid; grid-template-columns: 9.5em 1fr; gap: 10px 20px; margin-top: 22px; }
+        .kv dt { color: var(--ink-2); }
+        .kv dd { font-size: 0.97rem; }
+        .kv dd .sub { display: block; color: var(--ink-2); font-size: 0.9rem; }
+
+        /* ================= Footer ================= */
+        footer.site-foot { margin-top: 72px; border-top: 1px solid var(--rule); padding-top: 26px; padding-bottom: 56px; font-size: 0.84rem; color: var(--ink-2); }
+        footer .body { display: block; }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            #dag .edge { transition: none; }
         }
 
-        h1, h2, h3 { color: var(--primary); font-family: 'Playfair Display', serif; }
-        .highlight { color: var(--accent); font-weight: 600; }
-
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
-        section { padding: 80px 0; }
-
-        nav {
-            position: fixed; top: 0; width: 100%; z-index: 1000;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
+        /* ================= Narrow screens: notes move inline ================= */
+        @media (max-width: 900px) {
+            .page { max-width: calc(var(--text) + 48px); }
+            .sn { float: none; display: block; width: auto; margin: 12px 0 4px; padding-left: 14px; border-left: 1px solid var(--accent); }
+            .marginal { float: none; width: auto; margin: 0 0 26px; display: grid; grid-template-columns: 108px 1fr; gap: 18px; align-items: end; }
+            .marginal .links { margin-top: 0; }
         }
-        .nav-content {
-            display: flex; justify-content: space-between; align-items: center; height: 70px;
-        }
-        .logo { font-weight: 700; font-size: 1.2rem; color: var(--primary); text-decoration: none; }
-        .nav-links {
-            display: flex;
-            align-items: center;
-        }
-        .nav-links a {
-            margin-left: 30px; text-decoration: none; color: #555; font-size: 0.9rem; transition: 0.3s;
-        }
-        .nav-links a:hover, .nav-links a.active { color: var(--primary); font-weight: 600; }
-
-        .lang-toggle {
-            margin-left: 20px;
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 8px 14px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            font-family: inherit;
-        }
-
-        .hero {
-            min-height: 100vh; display: flex; align-items: center; justify-content: center;
-            padding-top: 80px;
-        }
-        .hero-grid {
-            display: grid; 
-            grid-template-columns: minmax(auto, 390px) 1.5fr;
-            gap: 60px;
-            align-items: center;
-        }
-        .profile-img-wrapper {
-            position: relative;
-            max-width: 350px;
-            margin: 0 auto;
-            padding: 10px;
-        }
-        .profile-img-wrapper::after {
-            content: ''; position: absolute; top: 0px; left: 0px; width: 100%; height: 100%;
-            border: 2px solid var(--primary); z-index: -1; border-radius: 12px;
-        }
-        .profile-img {
-            width: 100%;
-            max-width: 350px;
-            height: auto;
-            display: block;
-            margin: 0 auto;
-            border-radius: 11px; 
-            box-shadow: var(--shadow);
-            transition: transform 0.3s;
-        }
-        .profile-img:hover { transform: translateY(-5px) scale(1.01); }
-        
-        .tag {
-            display: inline-block; padding: 4px 12px; background: #E8F0FE; 
-            color: var(--primary); border-radius: 20px; font-size: 0.8rem; margin-bottom: 15px;
-        }
-
-        .card {
-            background: white; border-radius: 12px; padding: 30px; margin-bottom: 25px;
-            box-shadow: var(--shadow); border: 1px solid rgba(0,0,0,0.02);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.15);
-        }
-        .card-meta { font-size: 0.85rem; color: #777; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px;}
-        .card-details { margin-top: 15px; display: none; padding-top: 15px; border-top: 1px solid #eee; font-size: 0.95rem; color: #555;}
-        .toggle-btn {
-            background: none; border: none; color: var(--primary); cursor: pointer;
-            font-size: 0.9rem; margin-top: 10px; padding: 0; font-weight: 600;
-        }
-        .toggle-btn i { transition: transform 0.3s; }
-
-        .search-box {
-            width: 100%; padding: 15px; border: 2px solid #eee; border-radius: 8px;
-            margin-bottom: 30px; font-family: inherit; outline: none; transition: 0.3s;
-        }
-        .search-box:focus { border-color: var(--primary); }
-
-        .skills-container {
-            display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center;
-        }
-        .chart-wrapper { position: relative; height: 400px; width: 100%; }
-
-        footer { background: var(--primary); color: white; padding: 50px 0; text-align: center; }
-        .social-links a { color: white; margin: 0 15px; font-size: 1.5rem; transition: 0.3s; }
-        .social-links a:hover { color: var(--accent); }
-
-        @media (max-width: 768px) {
-            .hero-grid, .skills-container { grid-template-columns: 1fr; }
-            .nav-links a { display: none; }
-            .lang-toggle { margin-left: 0; }
+        @media (max-width: 560px) {
+            body { font-size: 17px; }
+            .page { padding-left: 16px; padding-right: 16px; }
+            .masthead { padding-top: 40px; }
+            .site-nav { order: 3; flex-basis: 100%; gap: 16px; }
+            .site-tools { margin-left: auto; }
+            #sim { height: 200px; }
+            .dotplot { grid-template-columns: max-content 1fr; column-gap: 18px; }
+            .dotplot .tools { grid-column: 1 / 3; padding-top: 0; padding-bottom: 12px; }
+            .dotplot .head.h-tools { display: none; }
+            .dotplot .axis-pad.last { display: none; }
+            .kv { grid-template-columns: 1fr; gap: 2px; }
+            .kv dd { margin-bottom: 12px; }
+            #dag text.lab { font-size: 17px; }
+            #dag text.zd-lab { font-size: 15.5px; }
         }
     </style>
 </head>
 <body>
+    <a href="#main" class="skip-link">Skip to content</a>
 
-    <nav>
-        <div class="container nav-content">
-            <a href="#" class="logo" data-i18n="logo">YUCHENG / RICHARD LUO</a>
-            <div class="nav-links">
-                <a href="#home" data-i18n="nav_home">Home</a>
-                <a href="#publications" data-i18n="nav_publications">Publications</a>
+    <header class="site">
+        <div class="page site-inner">
+            <a href="#top" class="site-name">Richard Luo<span class="dot">.</span></a>
+            <nav class="site-nav" id="siteNav" aria-label="Sections">
+                <a href="#research" data-i18n="nav_research">Research</a>
                 <a href="#projects" data-i18n="nav_projects">Projects</a>
+                <a href="#toolkit" data-i18n="nav_toolkit">Toolkit</a>
+                <a href="#education" data-i18n="nav_education">Education</a>
                 <a href="#contact" data-i18n="nav_contact">Contact</a>
-                <button id="langToggle" class="lang-toggle" onclick="toggleLanguage()">日本語</button>
+            </nav>
+            <div class="site-tools">
+                <span class="lang-switch" role="group" aria-label="Language">
+                    <button type="button" data-lang="en" aria-pressed="true">EN</button><span class="sep">/</span><button type="button" data-lang="ja" aria-pressed="false">日本語</button><span class="sep">/</span><button type="button" data-lang="fr" aria-pressed="false">FR</button>
+                </span>
+                <button type="button" class="theme-btn" id="themeToggle" aria-label="Toggle dark mode">◐</button>
             </div>
         </div>
-    </nav>
+    </header>
 
-    <section id="home" class="hero">
-        <div class="container hero-grid">
-            <div class="profile-img-wrapper">
-                <img src="profile.jpg" alt="Richard Luo" class="profile-img">
+    <main id="main">
+        <!-- ================= Masthead ================= -->
+        <div class="page masthead" id="top">
+            <div class="body">
+                <div class="marginal">
+                    <img src="profile.jpg" alt="Portrait of Richard Luo" class="portrait" width="216" height="270" decoding="async">
+                    <div class="links">
+                        <span class="label" data-i18n="correspondence">Correspondence</span>
+                        <a href="mailto:kiruohoshi@hotmail.com">kiruohoshi@hotmail.com</a>
+                        <a href="https://github.com/Aquariusia" target="_blank" rel="noopener">github.com/Aquariusia</a>
+                        <a href="https://x.com/Seiya_Hoshimi" target="_blank" rel="noopener">x.com/Seiya_Hoshimi</a>
+                    </div>
+                </div>
+
+                <p class="label" data-i18n="kicker">Research notebook · Geneva</p>
+                <h1>Yucheng (Richard) Luo</h1>
+                <p class="roles"><span data-i18n="role1">Data scientist</span><span class="dot">·</span><span data-i18n="role2">Researcher</span><span class="dot">·</span><span data-i18n="role3">Composer</span></p>
+
+                <p class="intro" data-i18n="intro1">I use quantitative methods to understand social systems. I'm an MSc student at the University of Geneva; before that I earned a B.Econ at the University of Sydney, majoring in Data Science and Econometrics.</p>
+                <p><span data-i18n="intro2">My current work sits in three places: AI in health, agent-based social simulation, and causal inference.</span></p>
             </div>
-            <div>
-                <span class="tag" data-i18n="hero_tag">M.Phil of UNIGE (2026 - 2027) </span>
-                <h1 data-i18n-html="hero_title">Data Scientist.<br>Researcher.<br>Composer.</h1>
-                <p style="margin: 20px 0; font-size: 1.1rem; color: #555;" data-i18n-html="hero_subtitle">
-                    Exploring the intersection of <span class="highlight">Quantitative Methods</span> and <span class="highlight">Social Systems</span>.
-                </p>
-                <p data-i18n="hero_desc">
-                    Hi Richard here, I am currently purchasing M.Phil of Science at UNIGE. I hold a B.Econ from the University of Sydney, majoring in Data Science and Econometrics. Currently focused on AI in Health, agent-based social simulation, and causal inference.
-                </p>
-                <br>
-                <button onclick="document.getElementById('publications').scrollIntoView()" style="background: var(--primary); color: white; border: none; padding: 12px 30px; border-radius: 6px; cursor: pointer; font-size: 1rem;" data-i18n="hero_button">
-                    View Research
-                </button>
-            </div>
+
+            <figure class="wide" aria-labelledby="fig1-cap">
+                <div class="fig-frame">
+                    <canvas id="sim" role="img" aria-label="Animated grid of two groups of agents gradually sorting into clusters"></canvas>
+                </div>
+                <div class="fig-tools">
+                    <label><span data-i18n="sim_tau">Tolerance threshold τ</span> <input type="range" id="tau" min="0.2" max="0.75" step="0.05" value="0.4"> <span class="readout"><b id="tauOut">0.40</b></span></label>
+                    <button type="button" class="btn" id="simShuffle" data-i18n="sim_shuffle">Reshuffle</button>
+                    <button type="button" class="btn" id="simPause">Pause</button>
+                    <span class="readout"><span data-i18n="sim_share">like-neighbour share</span> <b id="simShare">–</b>
+                        <svg id="spark" viewBox="0 0 120 22" aria-hidden="true"><line x1="0" y1="21.5" x2="120" y2="21.5"/><polyline points=""/></svg>
+                    </span>
+                    <span class="readout"><span data-i18n="sim_unhappy">wanting to move</span> <b id="simUnhappy">–</b></span>
+                </div>
+                <figcaption id="fig1-cap">
+                    <span class="fig-no" data-i18n="fig1_no">Figure 1</span><span data-i18n="fig1_title">A Schelling segregation model, running live in your browser.</span>
+                    <span class="notes" data-i18n="fig1_notes">Each dot is an agent from one of two groups. An agent moves to a random empty spot when fewer than τ of its neighbours share its group. Even mild preferences produce strong sorting. This is a toy illustration of agent-based simulation, not a research result.</span>
+                </figcaption>
+            </figure>
         </div>
-    </section>
 
-    <section id="publications">
-        <div class="container">
-            <h2 data-i18n="pub_title">Publications & Research</h2>
-            <p style="margin-bottom: 30px; color: #666;" data-i18n="pub_desc">My academic interest inquiries into econometrics, quantitative sciences and statistical machine learning.</p>
-            
-            <input type="text" id="pubSearch" class="search-box" placeholder="Search research topics..." data-i18n-placeholder="pub_search_placeholder" onkeyup="filterPublications()">
+        <!-- ================= I Research ================= -->
+        <section class="sec page" id="research">
+            <div class="body">
+                <h2><span class="ord">I</span><span data-i18n="sec_research">Research</span></h2>
+                <p data-i18n="research_intro">My research interests span econometrics, quantitative social science, and statistical machine learning.</p>
 
-            <div class="card pub-card">
-                <div class="card-meta" data-i18n="pub1_meta">Research / Econometrics</div>
-                <h3 data-i18n="pub1_title">Replication and Critique of David Card’s 1993 Work: Re-estimating Returns on Education</h3>
-                <p style="margin-top: 10px;" data-i18n="pub1_summary">Revisiting causal effects of college attendance using updated instrumental variable methods in the digital age.</p>
-                <button class="toggle-btn" data-type="abstract" onclick="toggleDetails(this)">
-                    Read Abstract <i class="fas fa-chevron-down"></i>
-                </button>
-                <div class="card-details" data-i18n="pub1_details">
-                    This research reflects my bachelor thesis. I revisits David Card’s 1993 study on the causal effect of college attendance on returns to education by leveraging a new dataset and several updated estimation methods. I re-evaluate the relationship between students’ family proximity to universities and educational outcomes, and examine how the validity of distance as an instrumental variable may have attenuated in the context of widespread internet access and remote learning. Proposing and reporting a novel discovering for the weakening IV validity linked to structural behavioral shifts under digital transformation, bringing spatiotemporal perspective to IV, a widely deployed econometric identification strategy. In addition, heterogeneous-effects analyses show that marginal returns to education are substantially higher for low-income and rural populations compared with high-income and urban groups, providing quantitative evidence that targeted higher-education subsidies can deliver disproportionately large gains for disadvantaged communities and offering concrete guidance for equity-oriented policy design.
-                </div>
+                <article class="entry">
+                    <p class="label" data-i18n="pub1_kind">Bachelor's thesis · The University of Sydney</p>
+                    <h3 data-i18n="pub1_title">Replicating and Critiquing Card (1993): Re-estimating the Returns to Education</h3>
+                    <p><span data-i18n="pub1_summary">The thesis revisits a classic question — what is a college education worth? — using a new dataset and updated instrumental-variable methods.</span><span class="sn-ref"></span><span class="sn" data-i18n="sn_card">Card's original idea: growing up near a college nudges people into more schooling for reasons unrelated to their ability, which makes distance a natural experiment.</span></p>
+                    <p data-i18n="pub1_findings">Two results stand out. First, distance to college appears to weaken as an instrument once internet access and remote learning are widespread. Second, the marginal returns to education are substantially higher for low-income and rural groups, which supports targeted higher-education subsidies.</p>
+
+                    <figure aria-labelledby="fig2-cap">
+                        <div class="fig-frame">
+                            <svg id="dag" viewBox="0 0 580 226" role="img" aria-labelledby="fig2-cap">
+                                <defs>
+                                    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z"/></marker>
+                                    <marker id="arrL" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z"/></marker>
+                                    <marker id="arrZ" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z"/></marker>
+                                </defs>
+                                <path class="edge zd" d="M108 146H260" marker-end="url(#arrZ)"/>
+                                <path class="edge" d="M318 146H470" marker-end="url(#arr)"/>
+                                <path class="edge latent" d="M377 66L311 127" marker-end="url(#arrL)"/>
+                                <path class="edge latent" d="M413 66L479 127" marker-end="url(#arrL)"/>
+                                <text class="zd-lab when-classic" x="184" y="132" data-i18n="dag_edge_a">shifts schooling</text>
+                                <text class="zd-lab when-digital" x="184" y="132" data-i18n="dag_edge_b">shifts it less</text>
+                                <g class="node"><circle cx="80" cy="146" r="26"/><text class="sym" x="80" y="153">Z</text></g>
+                                <g class="node"><circle cx="290" cy="146" r="26"/><text class="sym" x="290" y="153">D</text></g>
+                                <g class="node"><circle cx="500" cy="146" r="26"/><text class="sym" x="500" y="153">Y</text></g>
+                                <g class="node latent"><circle cx="395" cy="46" r="26"/><text class="sym" x="395" y="53">U</text></g>
+                                <text class="lab" x="80" y="202" data-i18n="dag_z">Distance to college</text>
+                                <text class="lab" x="290" y="202" data-i18n="dag_d">Schooling</text>
+                                <text class="lab" x="500" y="202" data-i18n="dag_y">Earnings</text>
+                                <text class="lab" x="395" y="12" data-i18n="dag_u">Unobserved ability</text>
+                            </svg>
+                        </div>
+                        <div class="fig-tools">
+                            <span class="seg" role="group" aria-label="Setting">
+                                <button type="button" class="btn" data-dag="classic" aria-pressed="true" data-i18n="dag_classic">Card's setting</button>
+                                <button type="button" class="btn" data-dag="digital" aria-pressed="false" data-i18n="dag_digital">Digital era</button>
+                            </span>
+                        </div>
+                        <figcaption id="fig2-cap">
+                            <span class="fig-no" data-i18n="fig2_no">Figure 2</span><span data-i18n="fig2_title">The identification strategy, drawn as a causal graph.</span>
+                            <span class="notes" data-i18n="fig2_notes">Distance to college (Z) serves as an instrument for schooling (D), to estimate its effect on earnings (Y) despite unobserved ability (U). Switch to the digital era: when studying remotely is common, distance plausibly moves schooling less, and the instrument weakens. A schematic, not an estimate.</span>
+                        </figcaption>
+                    </figure>
+
+                    <details>
+                        <summary data-i18n="read_abstract">Read the abstract</summary>
+                        <p data-i18n="pub1_details">Based on my bachelor's thesis, this study revisits David Card's (1993) estimate of the causal effect of college attendance on the returns to education, using a new dataset and several updated estimation methods. I re-examine the relationship between students' family proximity to a university and their educational outcomes, and ask whether distance remains a valid instrument once internet access and remote learning are widespread. I find evidence that the instrument's validity has weakened, consistent with structural behavioural shifts under digital transformation — adding a spatiotemporal perspective to one of econometrics' most widely used identification strategies. Heterogeneous-effects analyses further show that marginal returns to education are substantially higher for low-income and rural populations than for high-income and urban groups, providing quantitative evidence that targeted higher-education subsidies can deliver disproportionately large gains for disadvantaged communities and offering concrete guidance for equity-oriented policy design.</p>
+                    </details>
+                </article>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="projects" style="background: white;">
-        <div class="container">
-            <h2 data-i18n="projects_title">Technical Projects</h2>
-            <p style="margin-bottom: 40px; color: #666;" data-i18n="projects_desc">Applied Data Science, Machine Learning & Healthcare AI.</p>
+        <!-- ================= II Projects ================= -->
+        <section class="sec page" id="projects">
+            <div class="body">
+                <h2><span class="ord">II</span><span data-i18n="sec_projects">Projects</span></h2>
+                <p data-i18n="projects_intro">Applied work in data science, machine learning, and healthcare AI.</p>
 
-            <div class="card">
-                <div class="card-meta" data-i18n-html="project1_meta"><i class="fas fa-map-marked-alt"></i> Geospatial Data</div>
-                <h3 data-i18n="project1_title">Optimal Locations for Primary Schools in Sydney</h3>
-                <p data-i18n="project1_summary">Data-driven identification for new school sites using POI normalization and GIS mapping.</p>
-                <button class="toggle-btn" data-type="details" onclick="toggleDetails(this)">View Details <i class="fas fa-chevron-down"></i></button>
-                <div class="card-details" data-i18n="project1_details">
-                    Integrates multiple resource indicators as points of interest (POIs), which are normalized and incorporated into a comprehensive, visualized geographic information system (GIS) map.
-                </div>
+                <article class="entry">
+                    <p class="label" data-i18n="project1_kind">Geospatial data</p>
+                    <h3 data-i18n="project1_title">Optimal Locations for Primary Schools in Sydney</h3>
+                    <p><span data-i18n="project1_summary">Data-driven identification of new school sites using POI normalisation and GIS mapping.</span><span class="sn-ref"></span><span class="sn"><span data-i18n="tools">Tools:</span> GIS, POI, Python.</span></p>
+                    <details><summary data-i18n="details">Details</summary><p data-i18n="project1_details">Integrates multiple resource indicators as points of interest (POIs), which are normalised and combined into a comprehensive, visual geographic information system (GIS) map.</p></details>
+                </article>
+
+                <article class="entry">
+                    <p class="label" data-i18n="project2_kind">Machine learning · Healthcare</p>
+                    <h3 data-i18n="project2_title">XGBoost Classification of Acute Leukemia</h3>
+                    <p><span data-i18n="project2_summary">Key biomarker discovery using the Golub et al. (1999) gene expression dataset.</span><span class="sn-ref"></span><span class="sn"><span data-i18n="tools">Tools:</span> XGBoost, genomics, feature engineering.</span></p>
+                    <details><summary data-i18n="details">Details</summary><p data-i18n="project2_details">Worked with gene expression data through EDA, cleaning and feature engineering, then trained and compared multiple models — selecting XGBoost as the best fit for this high-dimensional, small-sample dataset.</p></details>
+                </article>
+
+                <article class="entry">
+                    <p class="label" data-i18n="project3_kind">LLM · Web application</p>
+                    <h3 data-i18n="project3_title">Genetic Risk Calculator</h3>
+                    <p><span data-i18n="project3_summary">A genomic-data diagnostic assistant combining an LLM with XGBoost.</span><span class="sn-ref"></span><span class="sn"><span data-i18n="tools">Tools:</span> Streamlit, LLM, XGBoost.</span></p>
+                    <details><summary data-i18n="details">Details</summary><p data-i18n="project3_details">A Streamlit web application that pairs a base classification model with a fine-tuned LLM, using structured prompt engineering to help users interpret the analysis.</p></details>
+                </article>
+            </div>
+        </section>
+
+        <!-- ================= III Toolkit ================= -->
+        <section class="sec page" id="toolkit">
+            <div class="body">
+                <h2><span class="ord">III</span><span data-i18n="sec_toolkit">Toolkit</span></h2>
+                <p data-i18n="toolkit_intro">My toolkit bridges traditional quantitative theory and modern computational methods. Figure 3 summarises it by area.</p>
             </div>
 
-            <div class="card">
-                <div class="card-meta" data-i18n-html="project2_meta"><i class="fas fa-dna"></i> ML Healthcare</div>
-                <h3 data-i18n="project2_title">XGBoost Classification of Acute Leukemia</h3>
-                <p data-i18n="project2_summary">Key biomarker discovery using the Golub et al. (1999) gene expression dataset.</p>
-                <button class="toggle-btn" data-type="details" onclick="toggleDetails(this)">View Details <i class="fas fa-chevron-down"></i></button>
-                <div class="card-details" data-i18n="project2_details">
-                    Utilized gene expression data involving EDA, cleaning, and feature engineering. Trained multiple models, selecting XGBoost as optimal for the high-dimensional, low-sample dataset.
+            <figure class="wide" aria-labelledby="fig3-cap">
+                <div class="fig-frame">
+                    <div class="dotplot" id="dotplot"></div>
                 </div>
-            </div>
+                <figcaption id="fig3-cap">
+                    <span class="fig-no" data-i18n="fig3_no">Figure 3</span><span data-i18n="fig3_title">Self-assessed proficiency by area, with the main tools and methods of each.</span>
+                    <span class="notes" data-i18n="fig3_notes">Levels run from 1 (basic) to 5 (advanced) and are self-reported.</span>
+                </figcaption>
+            </figure>
+        </section>
 
-            <div class="card">
-                <div class="card-meta" data-i18n-html="project3_meta"><i class="fas fa-user-md"></i> LLM + Web App</div>
-                <h3 data-i18n="project3_title">Genetic Risk Calculator</h3>
-                <p data-i18n="project3_summary">A Genomic Data-Based Diagnostic Assistant using LLM & XGBoost.</p>
-                <button class="toggle-btn" data-type="details" onclick="toggleDetails(this)">View Details <i class="fas fa-chevron-down"></i></button>
-                <div class="card-details" data-i18n="project3_details">
-                    Developed a Streamlit-based web application. Integrates a base classification model with a fine-tuned LLM to assist analysis via complex prompt engineering.
-                </div>
+        <!-- ================= IV Education ================= -->
+        <section class="sec page" id="education">
+            <div class="body">
+                <h2><span class="ord">IV</span><span data-i18n="sec_education">Education</span></h2>
+                <dl class="kv">
+                    <dt>2026–2027</dt>
+                    <dd><span data-i18n="edu1">MSc, University of Geneva</span><span class="sub" data-i18n="edu1_sub">AI in health, agent-based social simulation, causal inference</span></dd>
+                    <dt data-i18n="edu2_when">Completed</dt>
+                    <dd><span data-i18n="edu2">B.Econ, The University of Sydney</span><span class="sub" data-i18n="edu2_sub">Majors in Data Science and Econometrics</span></dd>
+                </dl>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="skills">
-        <div class="container">
-            <div class="skills-container">
-                <div>
-                    <h2 data-i18n="skills_title">Technical Expertise</h2>
-                    <p data-i18n="skills_desc">
-                        My skillset bridges the gap between traditional quantitative theory and modern computational intelligence. 
-                        I specialize in interpreting complex real world data through rigorous statistical and technical frameworks.
-                    </p>
-                    <ul style="margin-top: 20px; list-style: none;">
-                        <li style="margin-bottom: 10px;" data-i18n-html="skills_item1"><i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>Machine Learning:</strong> PyTorch, JAX, TF, XGB, CatBoost, Sklearn</li>
-                        <li style="margin-bottom: 10px;" data-i18n-html="skills_item2"><i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>Causal Inference:</strong> SCM, DAGs, IV, DiD, PSM, IPW, EconML</li>
-                        <li style="margin-bottom: 10px;" data-i18n-html="skills_item3"><i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>Tech Stack:</strong> Python, R, C++, PostgreSQL, PySpark, Git, MATLAB</li>
-                    </ul>
-                </div>
-                <div class="chart-wrapper">
-                    <canvas id="skillChart"></canvas>
-                </div>
+        <!-- ================= V Contact ================= -->
+        <section class="sec page" id="contact">
+            <div class="body">
+                <h2><span class="ord">V</span><span data-i18n="sec_contact">Contact</span></h2>
+                <p><span data-i18n="contact_text">I'm open to academic collaborations and research discussions. Email is the quickest way to reach me:</span> <a href="mailto:kiruohoshi@hotmail.com">kiruohoshi@hotmail.com</a>.</p>
+                <p><span data-i18n="contact_else">Elsewhere:</span> <a href="https://github.com/Aquariusia" target="_blank" rel="noopener">GitHub</a>, <a href="https://x.com/Seiya_Hoshimi" target="_blank" rel="noopener">X</a>.</p>
             </div>
-        </div>
-    </section>
+        </section>
+    </main>
 
-    <footer id="contact">
-        <div class="container">
-            <h2 style="color: white;" data-i18n="contact_title">Let's Connect</h2>
-            <p style="opacity: 0.8; margin-bottom: 30px;" data-i18n="contact_desc">Open for academic collaborations and research discussions.</p>
-            <div class="social-links">
-                <a href="https://x.com/Seiya_Hoshimi" target="_blank"><i class="fab fa-twitter"></i></a>
-                <a href="mailto:kiruohoshi@hotmail.com"><i class="fas fa-envelope"></i></a>
-                <a href="https://github.com/Aquariusia"><i class="fab fa-github"></i></a>
-            </div>
-            <p style="margin-top: 40px; font-size: 0.8rem; opacity: 0.5;" data-i18n-html="footer_copy">&copy; 2026 Richard Luo. Hosted on GitHub Pages.</p>
+    <footer class="site-foot page">
+        <div class="body">
+            <span data-i18n="footer_copy">© 2026 Richard Luo. Hosted on GitHub Pages.</span>
         </div>
     </footer>
 
     <script>
+        /* ================= Translations ================= */
         const translations = {
             en: {
-                page_title: "Richard Luo | Research Portfolio",
-                logo: "YUCHENG / RICHARD LUO",
-                nav_home: "Home",
-                nav_publications: "Publications",
-                nav_projects: "Projects",
-                nav_contact: "Contact",
-                hero_tag: "MSc (UNIGE, 2026 - 2027)",
-                hero_title: "Data Scientist.<br>Researcher.<br>Composer.",
-                hero_subtitle: 'Exploring the intersection of <span class="highlight">Quantitative Methods</span> and <span class="highlight">Social Systems</span>.',
-                hero_desc: "Hi Richard here, I am currently purchasing M.Phil of Science at UNIGE. I hold a B.Econ from the University of Sydney, majoring in Data Science and Econometrics. Currently focused on AI in Health, agent-based social simulation, and causal inference.",
-                hero_button: "View Research",
+                page_title: "Richard Luo | Research Notebook",
+                nav_research: "Research", nav_projects: "Projects", nav_toolkit: "Toolkit", nav_education: "Education", nav_contact: "Contact",
+                correspondence: "Correspondence",
+                kicker: "Research notebook · Geneva",
+                role1: "Data scientist", role2: "Researcher", role3: "Composer",
+                intro1: "I use quantitative methods to understand social systems. I'm an MSc student at the University of Geneva; before that I earned a B.Econ at the University of Sydney, majoring in Data Science and Econometrics.",
+                intro2: "My current work sits in three places: AI in health, agent-based social simulation, and causal inference.",
 
-                pub_title: "Publications & Research",
-                pub_desc: "My academic interest inquiries into econometrics, quantitative sciences and statistical machine learning.",
-                pub_search_placeholder: "Search research topics...",
-                pub1_meta: "Research / Econometrics",
-                pub1_title: "Replication and Critique of David Card’s 1993 Work: Re-estimating Returns on Education",
-                pub1_summary: "Revisiting causal effects of college attendance using updated instrumental variable methods in the digital age.",
-                pub1_details: "This research reflects my bachelor thesis. I revisits David Card’s 1993 study on the causal effect of college attendance on returns to education by leveraging a new dataset and several updated estimation methods. I re-evaluate the relationship between students’ family proximity to universities and educational outcomes, and examine how the validity of distance as an instrumental variable may have attenuated in the context of widespread internet access and remote learning. Proposing and reporting a novel discovering for the weakening IV validity linked to structural behavioral shifts under digital transformation, bringing spatiotemporal perspective to IV, a widely deployed econometric identification strategy. In addition, heterogeneous-effects analyses show that marginal returns to education are substantially higher for low-income and rural populations compared with high-income and urban groups, providing quantitative evidence that targeted higher-education subsidies can deliver disproportionately large gains for disadvantaged communities and offering concrete guidance for equity-oriented policy design.",
+                sim_tau: "Tolerance threshold τ", sim_shuffle: "Reshuffle", sim_pause: "Pause", sim_run: "Run",
+                sim_share: "like-neighbour share", sim_unhappy: "wanting to move",
+                fig1_no: "Figure 1", fig1_title: "A Schelling segregation model, running live in your browser.",
+                fig1_notes: "Each dot is an agent from one of two groups. An agent moves to a random empty spot when fewer than τ of its neighbours share its group. Even mild preferences produce strong sorting. This is a toy illustration of agent-based simulation, not a research result.",
 
-                projects_title: "Technical Projects",
-                projects_desc: "Applied Data Science, Machine Learning & Healthcare AI.",
-                project1_meta: '<i class="fas fa-map-marked-alt"></i> Geospatial Data',
+                sec_research: "Research",
+                research_intro: "My research interests span econometrics, quantitative social science, and statistical machine learning.",
+                pub1_kind: "Bachelor's thesis · The University of Sydney",
+                pub1_title: "Replicating and Critiquing Card (1993): Re-estimating the Returns to Education",
+                pub1_summary: "The thesis revisits a classic question — what is a college education worth? — using a new dataset and updated instrumental-variable methods.",
+                sn_card: "Card's original idea: growing up near a college nudges people into more schooling for reasons unrelated to their ability, which makes distance a natural experiment.",
+                pub1_findings: "Two results stand out. First, distance to college appears to weaken as an instrument once internet access and remote learning are widespread. Second, the marginal returns to education are substantially higher for low-income and rural groups, which supports targeted higher-education subsidies.",
+                dag_z: "Distance to college", dag_d: "Schooling", dag_y: "Earnings", dag_u: "Unobserved ability",
+                dag_edge_a: "shifts schooling", dag_edge_b: "shifts it less",
+                dag_classic: "Card's setting", dag_digital: "Digital era",
+                fig2_no: "Figure 2", fig2_title: "The identification strategy, drawn as a causal graph.",
+                fig2_notes: "Distance to college (Z) serves as an instrument for schooling (D), to estimate its effect on earnings (Y) despite unobserved ability (U). Switch to the digital era: when studying remotely is common, distance plausibly moves schooling less, and the instrument weakens. A schematic, not an estimate.",
+                read_abstract: "Read the abstract",
+                pub1_details: "Based on my bachelor's thesis, this study revisits David Card's (1993) estimate of the causal effect of college attendance on the returns to education, using a new dataset and several updated estimation methods. I re-examine the relationship between students' family proximity to a university and their educational outcomes, and ask whether distance remains a valid instrument once internet access and remote learning are widespread. I find evidence that the instrument's validity has weakened, consistent with structural behavioural shifts under digital transformation — adding a spatiotemporal perspective to one of econometrics' most widely used identification strategies. Heterogeneous-effects analyses further show that marginal returns to education are substantially higher for low-income and rural populations than for high-income and urban groups, providing quantitative evidence that targeted higher-education subsidies can deliver disproportionately large gains for disadvantaged communities and offering concrete guidance for equity-oriented policy design.",
+
+                sec_projects: "Projects",
+                projects_intro: "Applied work in data science, machine learning, and healthcare AI.",
+                tools: "Tools:", details: "Details",
+                project1_kind: "Geospatial data",
                 project1_title: "Optimal Locations for Primary Schools in Sydney",
-                project1_summary: "Data-driven identification for new school sites using POI normalization and GIS mapping.",
-                project1_details: "Integrates multiple resource indicators as points of interest (POIs), which are normalized and incorporated into a comprehensive, visualized geographic information system (GIS) map.",
-
-                project2_meta: '<i class="fas fa-dna"></i> ML Healthcare',
+                project1_summary: "Data-driven identification of new school sites using POI normalisation and GIS mapping.",
+                project1_details: "Integrates multiple resource indicators as points of interest (POIs), which are normalised and combined into a comprehensive, visual geographic information system (GIS) map.",
+                project2_kind: "Machine learning · Healthcare",
                 project2_title: "XGBoost Classification of Acute Leukemia",
                 project2_summary: "Key biomarker discovery using the Golub et al. (1999) gene expression dataset.",
-                project2_details: "Utilized gene expression data involving EDA, cleaning, and feature engineering. Trained multiple models, selecting XGBoost as optimal for the high-dimensional, low-sample dataset.",
-
-                project3_meta: '<i class="fas fa-user-md"></i> LLM + Web App',
+                project2_details: "Worked with gene expression data through EDA, cleaning and feature engineering, then trained and compared multiple models — selecting XGBoost as the best fit for this high-dimensional, small-sample dataset.",
+                project3_kind: "LLM · Web application",
                 project3_title: "Genetic Risk Calculator",
-                project3_summary: "A Genomic Data-Based Diagnostic Assistant using LLM & XGBoost.",
-                project3_details: "Developed a Streamlit-based web application. Integrates a base classification model with a fine-tuned LLM to assist analysis via complex prompt engineering.",
+                project3_summary: "A genomic-data diagnostic assistant combining an LLM with XGBoost.",
+                project3_details: "A Streamlit web application that pairs a base classification model with a fine-tuned LLM, using structured prompt engineering to help users interpret the analysis.",
 
-                skills_title: "Technical Expertise",
-                skills_desc: "My skillset bridges the gap between traditional quantitative theory and modern computational intelligence. I specialize in interpreting complex real world data through rigorous statistical and technical frameworks.",
-                skills_item1: '<i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>Machine Learning:</strong> PyTorch, JAX, TF, XGB, CatBoost, Sklearn',
-                skills_item2: '<i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>Causal Inference:</strong> SCM, DAGs, IV, DiD, PSM, IPW, EconML',
-                skills_item3: '<i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>Tech Stack:</strong> Python, R, C++, PostgreSQL, PySpark, Git, MATLAB',
+                sec_toolkit: "Toolkit",
+                toolkit_intro: "My toolkit bridges traditional quantitative theory and modern computational methods. Figure 3 summarises it by area.",
+                col_area: "Area", col_level: "Level", col_tools: "Tools and methods", tools_bio: "Gene expression analysis, biomarker discovery",
+                fig3_no: "Figure 3", fig3_title: "Self-assessed proficiency by area, with the main tools and methods of each.",
+                fig3_notes: "Levels run from 1 (basic) to 5 (advanced) and are self-reported.",
+                skill_labels: ["Machine Learning", "Data Science", "Econometrics", "Causal Inference", "Bio-Medicine"],
 
-                contact_title: "Let's Connect",
-                contact_desc: "Open for academic collaborations and research discussions.",
-                footer_copy: "&copy; 2026 Richard Luo. Hosted on GitHub Pages.",
+                sec_education: "Education",
+                edu1: "MSc, University of Geneva", edu1_sub: "AI in health, agent-based social simulation, causal inference",
+                edu2_when: "Completed", edu2: "B.Econ, The University of Sydney", edu2_sub: "Majors in Data Science and Econometrics",
 
-                toggle_view: "View Details",
-                toggle_hide: "Hide Details",
-                toggle_abstract: "Read Abstract",
-                lang_button: "日本語",
-                chart_labels: ["Machine Learning", "Econometrics", "Data Science", "Causal Inference", "Bio Med"]
+                sec_contact: "Contact",
+                contact_text: "I'm open to academic collaborations and research discussions. Email is the quickest way to reach me:",
+                contact_else: "Elsewhere:",
+                footer_copy: "© 2026 Richard Luo. Hosted on GitHub Pages."
             },
             ja: {
-                page_title: "羅 鈺程 | 研究ポートフォリオ",
-                logo: "YUCHENG / RICHARD LUO",
-                nav_home: "ホーム",
-                nav_publications: "研究業績",
-                nav_projects: "プロジェクト",
-                nav_contact: "連絡先",
-                hero_tag: "ジュネーヴ大学のM.Philに在籍",
-                hero_title: "データサイエンティスト。<br>研究者。<br>作曲家。",
-                hero_subtitle: '<span class="highlight">定量分析</span>と<span class="highlight">社会システム</span>の交点を探究しています。',
-                hero_desc: "はじめまして、リチャードです。現在、ジュネーヴ大学の修士課程に在籍しています。シドニー大学で経済学士号を取得し、Data Science と Econometrics を専攻しました。現在は AI in Health、エージェントベースの社会シミュレーション、因果推論を主な関心領域としています。",
-                hero_button: "研究を見る",
+                page_title: "羅 鈺程 | 研究ノート",
+                nav_research: "研究", nav_projects: "プロジェクト", nav_toolkit: "ツールキット", nav_education: "学歴", nav_contact: "連絡先",
+                correspondence: "連絡先",
+                kicker: "研究ノート · ジュネーヴ",
+                role1: "データサイエンティスト", role2: "研究者", role3: "作曲家",
+                intro1: "定量的な手法で社会システムを理解することを目指しています。現在はジュネーヴ大学の修士課程に在籍し、それ以前はシドニー大学で経済学士号を取得しました（Data Science・Econometrics 専攻）。",
+                intro2: "現在の関心は三つの領域にあります。医療AI、エージェントベースの社会シミュレーション、そして因果推論です。",
 
-                pub_title: "研究業績・研究関心",
-                pub_desc: "計量経済学、定量科学、統計的機械学習を中心に研究しています。",
-                pub_search_placeholder: "研究テーマを検索...",
-                pub1_meta: "研究 / 計量経済学",
-                pub1_title: "David Card（1993）の研究の再検証と批判的考察：教育収益率の再推定",
-                pub1_summary: "デジタル時代において、更新された操作変数法を用いながら大学進学の因果効果を再検討する研究。",
+                sim_tau: "許容しきい値 τ", sim_shuffle: "再配置", sim_pause: "一時停止", sim_run: "実行",
+                sim_share: "同じ集団の隣人の割合", sim_unhappy: "移動を望む割合",
+                fig1_no: "図1", fig1_title: "ブラウザ上で動作するシェリングの分居モデル。",
+                fig1_notes: "各点は二つの集団のいずれかに属するエージェントです。同じ集団の隣人の割合が τ を下回ると、エージェントはランダムな空き地へ移動します。わずかな選好でも強い分居が生じます。これはエージェントベース・シミュレーションの簡単な例示であり、研究成果ではありません。",
+
+                sec_research: "研究",
+                research_intro: "計量経済学、定量社会科学、統計的機械学習を中心に研究しています。",
+                pub1_kind: "学士論文 · シドニー大学",
+                pub1_title: "Card（1993）の再検証と批判的考察：教育収益率の再推定",
+                pub1_summary: "「大学教育にはどれだけの価値があるのか」という古典的な問いを、新たなデータセットと更新された操作変数法で再検討した論文です。",
+                sn_card: "Card の着想：大学の近くで育つと、本人の能力とは無関係な理由で進学しやすくなる。そのため、距離が自然実験として機能する。",
+                pub1_findings: "主な結果は二つです。第一に、インターネットと遠隔学習が普及すると、大学までの距離は操作変数として弱まるとみられます。第二に、低所得層・農村部では教育の限界収益率が大幅に高く、対象を絞った高等教育補助金の根拠となります。",
+                dag_z: "大学までの距離", dag_d: "就学", dag_y: "所得", dag_u: "観測されない能力",
+                dag_edge_a: "就学を左右する", dag_edge_b: "影響が弱まる",
+                dag_classic: "Card の設定", dag_digital: "デジタル時代",
+                fig2_no: "図2", fig2_title: "識別戦略を因果グラフとして描いたもの。",
+                fig2_notes: "大学までの距離（Z）を就学（D）の操作変数として用い、観測されない能力（U）があっても所得（Y）への効果を推定します。「デジタル時代」に切り替えると、遠隔での学習が一般的になり、距離が就学を左右する力が弱まって操作変数も弱くなる様子を示します。模式図であり、推定値ではありません。",
+                read_abstract: "要旨を読む",
                 pub1_details: "本研究は学士論文に基づくものです。David Card（1993）による教育収益率に対する大学進学の因果効果の研究を、新たなデータセットと複数の更新された推定手法を用いて再検証しました。学生の家族所在地と大学への近接性が教育成果に与える関係を再評価するとともに、インターネットの普及と遠隔学習の拡大という文脈において、距離を操作変数とする妥当性がどのように弱まった可能性があるかを検討しました。特に、デジタル化による構造的な行動変化が操作変数の有効性を弱めたという新たな示唆を提示し、広く用いられる計量経済学的識別戦略に時空間的な視点を導入しています。さらに、異質性効果の分析により、低所得層および農村部の集団では、高所得層や都市部の集団に比べて教育収益率の限界効果が大きいことを示し、高等教育補助金の重点的配分が不利なコミュニティに対してより大きな便益をもたらしうることを定量的に示しました。",
 
-                projects_title: "技術プロジェクト",
-                projects_desc: "応用データサイエンス、機械学習、医療AI。",
-                project1_meta: '<i class="fas fa-map-marked-alt"></i> 地理空間データ',
+                sec_projects: "プロジェクト",
+                projects_intro: "データサイエンス、機械学習、医療AIの応用プロジェクト。",
+                tools: "使用技術：", details: "詳細",
+                project1_kind: "地理空間データ",
                 project1_title: "シドニーにおける小学校新設候補地の最適化",
                 project1_summary: "POI の正規化と GIS マッピングを用いて新たな学校候補地を特定するデータ駆動型研究。",
                 project1_details: "複数の資源指標を POI（Points of Interest）として統合し、正規化した上で、包括的かつ可視化された地理情報システム（GIS）マップに組み込んだプロジェクトです。",
-
-                project2_meta: '<i class="fas fa-dna"></i> 医療機械学習',
+                project2_kind: "機械学習 · 医療",
                 project2_title: "急性白血病の XGBoost 分類",
                 project2_summary: "Golub et al.（1999）の遺伝子発現データセットを用いた主要バイオマーカー探索。",
                 project2_details: "遺伝子発現データに対して EDA、クリーニング、特徴量エンジニアリングを実施し、複数モデルを比較した結果、高次元・少標本データに最適な手法として XGBoost を採用しました。",
-
-                project3_meta: '<i class="fas fa-user-md"></i> LLM + Web アプリ',
+                project3_kind: "LLM · Web アプリケーション",
                 project3_title: "遺伝的リスク計算機",
-                project3_summary: "LLM と XGBoost を用いたゲノムデータベース診断支援システム。",
-                project3_details: "Streamlit ベースの Web アプリケーションを開発し、基礎分類モデルと微調整済み LLM を統合することで、高度なプロンプト設計を通じた分析支援を実現しました。",
+                project3_summary: "LLM と XGBoost を組み合わせたゲノムデータ診断支援システム。",
+                project3_details: "Streamlit ベースの Web アプリケーションを開発し、基礎分類モデルと微調整済み LLM を統合することで、構造化されたプロンプト設計を通じた分析支援を実現しました。",
 
-                skills_title: "技術的専門性",
-                skills_desc: "私のスキルセットは、伝統的な定量理論と現代的な計算知能をつなぐものです。厳密な統計的・技術的枠組みに基づき、複雑な現実世界データを解釈することを得意としています。",
-                skills_item1: '<i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>機械学習:</strong> PyTorch, JAX, TF, XGB, CatBoost, Sklearn',
-                skills_item2: '<i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>因果推論:</strong> SCM, DAGs, IV, DiD, PSM, IPW, EconML',
-                skills_item3: '<i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>技術スタック:</strong> Python, R, C++, PostgreSQL, PySpark, Git, MATLAB',
+                sec_toolkit: "ツールキット",
+                toolkit_intro: "伝統的な定量理論と現代的な計算手法の双方にまたがるスキルを持っています。図3に分野別にまとめました。",
+                col_area: "分野", col_level: "レベル", col_tools: "ツール・手法", tools_bio: "遺伝子発現解析、バイオマーカー探索",
+                fig3_no: "図3", fig3_title: "分野別の自己評価による習熟度と、各分野の主なツール・手法。",
+                fig3_notes: "レベルは1（基礎）から5（上級）までで、自己申告です。",
+                skill_labels: ["機械学習", "データサイエンス", "計量経済学", "因果推論", "バイオ医療"],
 
-                contact_title: "ご連絡はこちら",
-                contact_desc: "学術的な共同研究や研究に関するご相談を歓迎します。",
-                footer_copy: "&copy; 2026 Richard Luo. GitHub Pages で公開中。",
+                sec_education: "学歴",
+                edu1: "理学修士（MSc）、ジュネーヴ大学", edu1_sub: "医療AI、エージェントベース社会シミュレーション、因果推論",
+                edu2_when: "修了", edu2: "経済学士（B.Econ）、シドニー大学", edu2_sub: "Data Science・Econometrics 専攻",
 
-                toggle_view: "詳細を見る",
-                toggle_hide: "詳細を閉じる",
-                toggle_abstract: "要旨を読む",
-                lang_button: "Français", // Changed from "English" to point to the next language
-                chart_labels: ["機械学習", "計量経済学", "データサイエンス", "因果推論", "バイオ医療"]
+                sec_contact: "連絡先",
+                contact_text: "学術的な共同研究や研究に関するご相談を歓迎します。メールでのご連絡が最も確実です：",
+                contact_else: "その他：",
+                footer_copy: "© 2026 Richard Luo. GitHub Pages で公開中。"
             },
             fr: {
-                page_title: "Richard Luo | Portfolio de Recherche",
-                logo: "YUCHENG / RICHARD LUO",
-                nav_home: "Accueil",
-                nav_publications: "Publications",
-                nav_projects: "Projets",
-                nav_contact: "Contact",
-                hero_tag: "MSc (UNIGE, 2026 - 2027)",
-                hero_title: "Data Scientist.<br>Chercheur.<br>Compositeur.",
-                hero_subtitle: 'Exploration de l\'intersection entre les <span class="highlight">Méthodes Quantitatives</span> et les <span class="highlight">Systèmes Sociaux</span>.',
-                hero_desc: "Bonjour, je suis Richard. Je poursuis actuellement un M.Phil en Sciences à l'UNIGE. Je suis titulaire d'un B.Econ de l'Université de Sydney, avec une spécialisation en Data Science et Économétrie. Actuellement concentré sur l'IA dans la santé, la simulation sociale basée sur des agents et l'inférence causale.",
-                hero_button: "Voir la Recherche",
+                page_title: "Richard Luo | Carnet de recherche",
+                nav_research: "Recherche", nav_projects: "Projets", nav_toolkit: "Outils", nav_education: "Formation", nav_contact: "Contact",
+                correspondence: "Correspondance",
+                kicker: "Carnet de recherche · Genève",
+                role1: "Data scientist", role2: "Chercheur", role3: "Compositeur",
+                intro1: "J'utilise les méthodes quantitatives pour comprendre les systèmes sociaux. Je suis étudiant en MSc à l'Université de Genève, après un B.Econ à l'Université de Sydney, avec des majeures en Data Science et en Économétrie.",
+                intro2: "Mon travail actuel se situe en trois endroits : l'IA en santé, la simulation sociale multi-agents et l'inférence causale.",
 
-                pub_title: "Publications & Recherche",
-                pub_desc: "Mes intérêts académiques portent sur l'économétrie, les sciences quantitatives et l'apprentissage automatique statistique.",
-                pub_search_placeholder: "Rechercher des sujets de recherche...",
-                pub1_meta: "Recherche / Économétrie",
-                pub1_title: "Réplication et Critique des Travaux de David Card (1993) : Réestimation des Rendements de l'Éducation",
-                pub1_summary: "Réévaluation des effets causaux de la fréquentation universitaire à l'aide de méthodes de variables instrumentales actualisées à l'ère numérique.",
-                pub1_details: "Cette recherche reflète mon mémoire de licence. Je revisite l'étude de David Card (1993) sur l'effet causal de la fréquentation universitaire sur les rendements de l'éducation en exploitant un nouvel ensemble de données et plusieurs méthodes d'estimation actualisées. Je réévalue la relation entre la proximité familiale des étudiants avec les universités et les résultats éducatifs, et j'examine comment la validité de la distance comme variable instrumentale a pu s'atténuer dans le contexte de l'accès généralisé à Internet et de l'apprentissage à distance. Proposant et rapportant une nouvelle découverte sur l'affaiblissement de la validité de la VI liée aux changements comportementaux structurels sous la transformation numérique, apportant une perspective spatio-temporelle à la VI, une stratégie d'identification économétrique largement déployée. De plus, les analyses d'effets hétérogènes montrent que les rendements marginaux de l'éducation sont substantiellement plus élevés pour les populations à faible revenu et rurales par rapport aux groupes urbains et à revenu élevé, fournissant des preuves quantitatives que les subventions à l'enseignement supérieur ciblées peuvent apporter des gains disproportionnés pour les communautés défavorisées et offrant des conseils concrets pour la conception de politiques orientées vers l'équité.",
+                sim_tau: "Seuil de tolérance τ", sim_shuffle: "Mélanger", sim_pause: "Pause", sim_run: "Lancer",
+                sim_share: "part de voisins semblables", sim_unhappy: "souhaitant déménager",
+                fig1_no: "Figure 1", fig1_title: "Un modèle de ségrégation de Schelling, exécuté en direct dans votre navigateur.",
+                fig1_notes: "Chaque point est un agent appartenant à l'un de deux groupes. Un agent se déplace vers une case vide au hasard lorsque moins de τ de ses voisins sont de son groupe. Même des préférences modérées produisent un tri marqué. Il s'agit d'une illustration de la simulation multi-agents, non d'un résultat de recherche.",
 
-                projects_title: "Projets Techniques",
-                projects_desc: "Science des Données Appliquée, Machine Learning & IA en Santé.",
-                project1_meta: '<i class="fas fa-map-marked-alt"></i> Données Géospatiales',
-                project1_title: "Emplacements Optimaux pour les Écoles Primaires à Sydney",
-                project1_summary: "Identification basée sur les données pour de nouveaux sites scolaires utilisant la normalisation des POI et la cartographie SIG.",
-                project1_details: "Intègre de multiples indicateurs de ressources en tant que points d'intérêt (POI), qui sont normalisés et intégrés dans une carte complète et visualisée du système d'information géographique (SIG).",
+                sec_research: "Recherche",
+                research_intro: "Mes intérêts de recherche portent sur l'économétrie, les sciences sociales quantitatives et l'apprentissage automatique statistique.",
+                pub1_kind: "Mémoire de licence · Université de Sydney",
+                pub1_title: "Réplication et critique de Card (1993) : réestimation des rendements de l'éducation",
+                pub1_summary: "Ce mémoire revisite une question classique — que vaut une formation universitaire ? — à l'aide d'un nouveau jeu de données et de méthodes de variables instrumentales actualisées.",
+                sn_card: "L'idée de Card : grandir près d'une université incite à étudier plus longtemps, pour des raisons sans lien avec les aptitudes, ce qui fait de la distance une expérience naturelle.",
+                pub1_findings: "Deux résultats ressortent. D'abord, la distance à l'université semble s'affaiblir comme instrument lorsque l'accès à Internet et l'enseignement à distance se généralisent. Ensuite, les rendements marginaux de l'éducation sont nettement plus élevés pour les groupes ruraux et à faible revenu, ce qui plaide pour des subventions ciblées à l'enseignement supérieur.",
+                dag_z: "Distance à l'université", dag_d: "Scolarité", dag_y: "Revenus", dag_u: "Aptitude non observée",
+                dag_edge_a: "influence la scolarité", dag_edge_b: "l'influence moins",
+                dag_classic: "Cadre de Card", dag_digital: "Ère numérique",
+                fig2_no: "Figure 2", fig2_title: "La stratégie d'identification, représentée par un graphe causal.",
+                fig2_notes: "La distance à l'université (Z) sert d'instrument pour la scolarité (D), afin d'estimer son effet sur les revenus (Y) malgré l'aptitude non observée (U). Passez à l'ère numérique : lorsque les études à distance sont courantes, la distance influence vraisemblablement moins la scolarité, et l'instrument s'affaiblit. Un schéma, non une estimation.",
+                read_abstract: "Lire le résumé",
+                pub1_details: "Issue de mon mémoire de licence, cette étude revisite l'estimation de David Card (1993) de l'effet causal des études universitaires sur les rendements de l'éducation, à l'aide d'un nouveau jeu de données et de plusieurs méthodes d'estimation actualisées. Je réexamine la relation entre la proximité familiale des étudiants avec une université et leurs résultats éducatifs, et je me demande si la distance reste un instrument valide lorsque l'accès à Internet et l'enseignement à distance sont généralisés. Les résultats suggèrent un affaiblissement de la validité de l'instrument, cohérent avec des changements comportementaux structurels liés à la transformation numérique, ce qui apporte une perspective spatio-temporelle à l'une des stratégies d'identification les plus utilisées en économétrie. Par ailleurs, les analyses d'effets hétérogènes montrent que les rendements marginaux de l'éducation sont nettement plus élevés pour les populations rurales et à faible revenu que pour les groupes urbains et aisés, ce qui fournit des preuves quantitatives que des subventions ciblées à l'enseignement supérieur peuvent produire des gains disproportionnés pour les communautés défavorisées et éclairer la conception de politiques orientées vers l'équité.",
 
-                project2_meta: '<i class="fas fa-dna"></i> ML en Santé',
-                project2_title: "Classification de la Leucémie Aiguë avec XGBoost",
-                project2_summary: "Découverte de biomarqueurs clés à l'aide de l'ensemble de données d'expression génique de Golub et al. (1999).",
-                project2_details: "Utilisation des données d'expression génique impliquant l'EDA, le nettoyage et l'ingénierie des caractéristiques. Formation de plusieurs modèles, en sélectionnant XGBoost comme optimal pour l'ensemble de données de haute dimension et à faible échantillon.",
+                sec_projects: "Projets",
+                projects_intro: "Travaux appliqués en science des données, machine learning et IA en santé.",
+                tools: "Outils :", details: "Détails",
+                project1_kind: "Données géospatiales",
+                project1_title: "Emplacements optimaux pour les écoles primaires à Sydney",
+                project1_summary: "Identification de nouveaux sites scolaires fondée sur les données, via la normalisation de POI et la cartographie SIG.",
+                project1_details: "Intègre de multiples indicateurs de ressources sous forme de points d'intérêt (POI), normalisés puis combinés dans une carte SIG (système d'information géographique) complète et visuelle.",
+                project2_kind: "Machine learning · Santé",
+                project2_title: "Classification de la leucémie aiguë avec XGBoost",
+                project2_summary: "Découverte de biomarqueurs clés à partir du jeu de données d'expression génique de Golub et al. (1999).",
+                project2_details: "Analyse exploratoire, nettoyage et ingénierie des variables sur des données d'expression génique, puis entraînement et comparaison de plusieurs modèles — XGBoost s'est révélé le plus adapté à ce jeu de données de grande dimension et de petit échantillon.",
+                project3_kind: "LLM · Application web",
+                project3_title: "Calculateur de risque génétique",
+                project3_summary: "Un assistant de diagnostic fondé sur des données génomiques, combinant un LLM et XGBoost.",
+                project3_details: "Application web Streamlit associant un modèle de classification de base à un LLM affiné, avec une ingénierie de prompts structurée pour aider à interpréter l'analyse.",
 
-                project3_meta: '<i class="fas fa-user-md"></i> LLM + Application Web',
-                project3_title: "Calculateur de Risque Génétique",
-                project3_summary: "Un assistant de diagnostic basé sur des données génomiques utilisant LLM & XGBoost.",
-                project3_details: "Développement d'une application web basée sur Streamlit. Intègre un modèle de classification de base avec un LLM affiné pour aider à l'analyse via une ingénierie de prompt complexe.",
+                sec_toolkit: "Outils",
+                toolkit_intro: "Mes compétences relient la théorie quantitative traditionnelle et les méthodes computationnelles modernes. La figure 3 les résume par domaine.",
+                col_area: "Domaine", col_level: "Niveau", col_tools: "Outils et méthodes", tools_bio: "Analyse d'expression génique, découverte de biomarqueurs",
+                fig3_no: "Figure 3", fig3_title: "Niveau auto-évalué par domaine, avec les principaux outils et méthodes de chacun.",
+                fig3_notes: "Les niveaux vont de 1 (notions) à 5 (avancé) et sont auto-déclarés.",
+                skill_labels: ["Machine Learning", "Data Science", "Économétrie", "Inférence causale", "Biomédecine"],
 
-                skills_title: "Expertise Technique",
-                skills_desc: "Mes compétences comblent le fossé entre la théorie quantitative traditionnelle et l'intelligence computationnelle moderne. Je me spécialise dans l'interprétation de données complexes du monde réel grâce à des cadres statistiques et techniques rigoureux.",
-                skills_item1: '<i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>Machine Learning :</strong> PyTorch, JAX, TF, XGB, CatBoost, Sklearn',
-                skills_item2: '<i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>Inférence Causale :</strong> SCM, DAGs, IV, DiD, PSM, IPW, EconML',
-                skills_item3: '<i class="fas fa-check-circle" style="color:var(--primary)"></i> <strong>Stack Technique :</strong> Python, R, C++, PostgreSQL, PySpark, Git, MATLAB',
+                sec_education: "Formation",
+                edu1: "MSc, Université de Genève", edu1_sub: "IA en santé, simulation sociale multi-agents, inférence causale",
+                edu2_when: "Obtenu", edu2: "B.Econ, Université de Sydney", edu2_sub: "Majeures en Data Science et Économétrie",
 
-                contact_title: "Restons en Contact",
-                contact_desc: "Ouvert aux collaborations académiques et aux discussions de recherche.",
-                footer_copy: "&copy; 2026 Richard Luo. Hébergé sur GitHub Pages.",
-
-                toggle_view: "Voir les Détails",
-                toggle_hide: "Masquer les Détails",
-                toggle_abstract: "Lire le Résumé",
-                lang_button: "English",
-                chart_labels: ["Machine Learning", "Économétrie", "Data Science", "Inférence Causale", "Bio Med"]
+                sec_contact: "Contact",
+                contact_text: "Je suis ouvert aux collaborations académiques et aux discussions de recherche. Le plus simple est de m'écrire :",
+                contact_else: "Ailleurs :",
+                footer_copy: "© 2026 Richard Luo. Hébergé sur GitHub Pages."
             }
         };
 
-        function applyTranslations(lang) {
-            document.documentElement.lang = lang;
-            document.title = translations[lang].page_title;
+        /* ================= Helpers ================= */
+        const store = {
+            get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } },
+            set(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* storage unavailable */ } }
+        };
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const cssVar = name => getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+        let currentLang = 'en';
 
-            document.querySelectorAll('[data-i18n]').forEach(el => {
-                const key = el.getAttribute('data-i18n');
-                if (translations[lang][key] !== undefined) {
-                    el.textContent = translations[lang][key];
-                }
-            });
+        function detectLanguage() {
+            const saved = store.get('language');
+            if (saved && translations[saved]) return saved;
+            const nav = (navigator.language || 'en').slice(0, 2).toLowerCase();
+            return translations[nav] ? nav : 'en';
+        }
 
-            document.querySelectorAll('[data-i18n-html]').forEach(el => {
-                const key = el.getAttribute('data-i18n-html');
-                if (translations[lang][key] !== undefined) {
-                    el.innerHTML = translations[lang][key];
-                }
-            });
+        /* ================= Figure 1: Schelling model ================= */
+        const sim = (() => {
+            const cv = document.getElementById('sim');
+            const ctx = cv.getContext('2d');
+            const pauseBtn = document.getElementById('simPause');
+            const shareEl = document.getElementById('simShare');
+            const unhappyEl = document.getElementById('simUnhappy');
+            const spark = document.querySelector('#spark polyline');
+            const EMPTY = 0.12;
+            let cols = 0, rows = 0, cell = 11, w = 0, h = 0, grid = null;
+            let tau = 0.4, frame = 0, hist = [];
+            let wanted = !reduceMotion;   // the visitor wants it running
+            let settled = false, visible = false, raf = null;
+            let colors = {};
 
-            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-                const key = el.getAttribute('data-i18n-placeholder');
-                if (translations[lang][key] !== undefined) {
-                    el.placeholder = translations[lang][key];
-                }
-            });
+            function readColors() { colors = { a: cssVar('--group-a'), b: cssVar('--group-b') }; }
 
-            const langToggle = document.getElementById('langToggle');
-            if (langToggle) {
-                langToggle.textContent = translations[lang].lang_button;
+            function resize() {
+                const dpr = window.devicePixelRatio || 1;
+                w = cv.clientWidth; h = cv.clientHeight;
+                if (!w || !h) return false;
+                cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr);
+                ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+                cell = w < 520 ? 9 : 11;
+                cols = Math.floor(w / cell); rows = Math.floor(h / cell);
+                return true;
             }
-
-            updateToggleButtonTexts(lang);
-            updateChartLabels(lang);
-        }
-
-        function setLanguage(lang) {
-            localStorage.setItem('language', lang);
-            applyTranslations(lang);
-        }
-
-        function toggleLanguage() {
-            const current = localStorage.getItem('language') || 'en';
-            let next;
-            // Cycle through English -> Japanese -> French -> English
-            if (current === 'en') {
-                next = 'ja';
-            } else if (current === 'ja') {
-                next = 'fr';
-            } else {
-                next = 'en';
-            }
-            setLanguage(next);
-        }
-
-        function updateToggleButtonTexts(lang) {
-            document.querySelectorAll('.toggle-btn').forEach(btn => {
-                const details = btn.nextElementSibling;
-                const isOpen = details && details.style.display === 'block';
-                const type = btn.dataset.type || 'details';
-
-                if (isOpen) {
-                    btn.innerHTML = `${translations[lang].toggle_hide} <i class="fas fa-chevron-up"></i>`;
-                } else {
-                    const label = type === 'abstract' ? translations[lang].toggle_abstract : translations[lang].toggle_view;
-                    btn.innerHTML = `${label} <i class="fas fa-chevron-down"></i>`;
+            function seed() {
+                grid = new Uint8Array(cols * rows);
+                for (let i = 0; i < grid.length; i++) {
+                    const r = Math.random();
+                    grid[i] = r < EMPTY ? 0 : (r < EMPTY + (1 - EMPTY) / 2 ? 1 : 2);
                 }
-            });
-        }
-
-        function toggleDetails(btn) {
-            const details = btn.nextElementSibling;
-            const lang = localStorage.getItem('language') || 'en';
-            const type = btn.dataset.type || 'details';
-
-            if (details.style.display === "block") {
-                details.style.display = "none";
-                const label = type === 'abstract' ? translations[lang].toggle_abstract : translations[lang].toggle_view;
-                btn.innerHTML = `${label} <i class="fas fa-chevron-down"></i>`;
-            } else {
-                details.style.display = "block";
-                btn.innerHTML = `${translations[lang].toggle_hide} <i class="fas fa-chevron-up"></i>`;
+                frame = 0; hist = []; settled = false;
             }
-        }
-
-        function filterPublications() {
-            const input = document.getElementById('pubSearch');
-            const filter = input.value.toLowerCase();
-            const cards = document.getElementsByClassName('pub-card');
-
-            for (let i = 0; i < cards.length; i++) {
-                const searchableText = cards[i].innerText.toLowerCase();
-                if (searchableText.includes(filter)) {
-                    cards[i].style.display = "";
-                } else {
-                    cards[i].style.display = "none";
+            function like(i) {
+                const x = i % cols, y = (i / cols) | 0, me = grid[i];
+                let same = 0, tot = 0;
+                for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) {
+                    if (!dx && !dy) continue;
+                    const nx = x + dx, ny = y + dy;
+                    if (nx < 0 || ny < 0 || nx >= cols || ny >= rows) continue;
+                    const v = grid[ny * cols + nx];
+                    if (v) { tot++; if (v === me) same++; }
                 }
+                return tot ? same / tot : 1;
             }
-        }
-
-        const ctx = document.getElementById('skillChart').getContext('2d');
-        const skillChart = new Chart(ctx, {
-            type: 'radar',
-            data: {
-                labels: ['Machine Learning', 'Econometrics', 'Data Science', 'Causal Inference', 'Bio Med'],
-                datasets: [{
-                    label: 'Skill Level',
-                    data: [5, 4, 5, 4, 3],
-                    backgroundColor: 'rgba(11, 61, 145, 0.2)',
-                    borderColor: 'rgba(11, 61, 145, 1)',
-                    pointBackgroundColor: '#fff',
-                    pointBorderColor: '#0B3D91',
-                    pointHoverBackgroundColor: '#fff',
-                    pointHoverBorderColor: '#0B3D91'
-                }]
-            },
-            options: {
-                scales: {
-                    r: {
-                        angleLines: { display: true, color: 'rgba(0,0,0,0.1)' },
-                        suggestedMin: 0,
-                        suggestedMax: 5,
-                        ticks: { backdropColor: 'transparent' }
+            function scan() {
+                let s = 0, n = 0, u = 0;
+                for (let i = 0; i < grid.length; i++) if (grid[i]) {
+                    const l = like(i); s += l; n++; if (l < tau) u++;
+                }
+                return { share: n ? s / n : 0, unhappy: n ? u / n : 0 };
+            }
+            function step() {
+                const tries = Math.ceil(grid.length * 0.03);
+                for (let k = 0; k < tries; k++) {
+                    const i = (Math.random() * grid.length) | 0;
+                    if (!grid[i] || like(i) >= tau) continue;
+                    for (let t = 0; t < 24; t++) {
+                        const j = (Math.random() * grid.length) | 0;
+                        if (!grid[j]) { grid[j] = grid[i]; grid[i] = 0; break; }
                     }
-                },
-                plugins: {
-                    legend: { display: false }
                 }
             }
+            function draw() {
+                ctx.clearRect(0, 0, w, h);
+                const ox = (w - cols * cell) / 2 + cell / 2, oy = (h - rows * cell) / 2 + cell / 2;
+                const r = cell * 0.36;
+                for (const g of [1, 2]) {
+                    ctx.fillStyle = g === 1 ? colors.a : colors.b;
+                    ctx.beginPath();
+                    for (let i = 0; i < grid.length; i++) if (grid[i] === g) {
+                        const x = ox + (i % cols) * cell, y = oy + ((i / cols) | 0) * cell;
+                        ctx.moveTo(x + r, y); ctx.arc(x, y, r, 0, 6.2832);
+                    }
+                    ctx.fill();
+                }
+            }
+            function measure() {
+                const m = scan();
+                shareEl.textContent = m.share.toFixed(2);
+                unhappyEl.textContent = Math.round(m.unhappy * 100) + '%';
+                hist.push(m.share); if (hist.length > 120) hist.shift();
+                spark.setAttribute('points', hist.map((v, i) => `${i},${(21 - Math.max(0, Math.min(1, (v - 0.4) / 0.6)) * 20).toFixed(1)}`).join(' '));
+                return m;
+            }
+            function tick() {
+                raf = null;
+                if (!wanted || !visible || settled) return;
+                step(); frame++;
+                draw();
+                if (frame % 5 === 0) {
+                    const m = measure();
+                    if (m.unhappy === 0 || frame > 6000) settled = true;
+                }
+                raf = requestAnimationFrame(tick);
+            }
+            function kick() { if (!raf && wanted && visible && !settled) raf = requestAnimationFrame(tick); }
+            function label() {
+                const t = translations[currentLang];
+                pauseBtn.textContent = wanted ? t.sim_pause : t.sim_run;
+            }
+            function reset() { if (!resize()) return; seed(); draw(); measure(); kick(); }
+
+            pauseBtn.addEventListener('click', () => { wanted = !wanted; label(); kick(); });
+            document.getElementById('simShuffle').addEventListener('click', () => { seed(); draw(); measure(); wanted = true; label(); kick(); });
+            const tauIn = document.getElementById('tau'), tauOut = document.getElementById('tauOut');
+            tauIn.addEventListener('input', () => {
+                tau = parseFloat(tauIn.value); tauOut.textContent = tau.toFixed(2);
+                settled = false; frame = 0; measure(); kick();
+            });
+            let rz = null;
+            window.addEventListener('resize', () => {
+                clearTimeout(rz);
+                rz = setTimeout(() => { if (cv.clientWidth !== w) reset(); }, 200);
+            });
+            if ('IntersectionObserver' in window) {
+                new IntersectionObserver(es => { visible = es[0].isIntersecting; kick(); }).observe(cv);
+            } else { visible = true; }
+
+            return {
+                init() { readColors(); reset(); label(); },
+                recolor() { readColors(); if (grid) draw(); },
+                label
+            };
+        })();
+
+        /* ================= Figure 2: causal graph ================= */
+        const dag = document.getElementById('dag');
+        document.querySelectorAll('[data-dag]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                dag.classList.toggle('digital', btn.dataset.dag === 'digital');
+                document.querySelectorAll('[data-dag]').forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
+            });
         });
 
-        function updateChartLabels(lang) {
-            if (!skillChart) return;
-            skillChart.data.labels = translations[lang].chart_labels;
-            skillChart.update();
+        /* ================= Figure 3: dot plot ================= */
+        const skills = [                                      // order matches skill_labels
+            { level: 5, tools: "PyTorch, JAX, TensorFlow, XGBoost, CatBoost, scikit-learn" },
+            { level: 5, tools: "Python, R, C++, PostgreSQL, PySpark, Git" },
+            { level: 4, tools: "IV, DiD, MATLAB" },
+            { level: 4, tools: "SCM, DAGs, PSM, IPW, EconML" },
+            { level: 3, toolsKey: "tools_bio" }
+        ];
+        const dotplot = document.getElementById('dotplot');
+        function buildDotplot() {
+            let html = '<span class="label head" data-i18n="col_area"></span><span class="label head" data-i18n="col_level"></span><span class="label head h-tools" data-i18n="col_tools"></span>';
+            skills.forEach((s, i) => {
+                html += `<span data-skill="${i}"></span>
+                    <span class="track" role="img" aria-label="${s.level} / 5"><span class="dot" style="left:${(s.level - 1) * 25}%"></span></span>
+                    <span class="tools"${s.toolsKey ? ` data-i18n="${s.toolsKey}"` : ''}>${s.tools || ''}</span>`;
+            });
+            const ticks = [1, 2, 3, 4, 5].map(n => `<span style="left:${(n - 1) * 25}%">${n}</span>`).join('');
+            html += `<span class="axis-pad"></span><span class="axis" aria-hidden="true">${ticks}</span><span class="axis-pad last"></span>`;
+            dotplot.innerHTML = html;
+        }
+        function labelDotplot() {
+            const labels = translations[currentLang].skill_labels;
+            dotplot.querySelectorAll('[data-skill]').forEach(el => { el.textContent = labels[+el.dataset.skill]; });
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedLang = localStorage.getItem('language') || 'en';
-            applyTranslations(savedLang);
+        /* ================= i18n ================= */
+        function applyTranslations(lang) {
+            const t = translations[lang];
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            document.title = t.page_title;
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const v = t[el.dataset.i18n];
+                if (v !== undefined) el.textContent = v;
+            });
+            document.querySelectorAll('.lang-switch button').forEach(b => {
+                b.setAttribute('aria-pressed', String(b.dataset.lang === lang));
+            });
+            labelDotplot();
+            sim.label();
+        }
+        document.querySelectorAll('.lang-switch button').forEach(b => b.addEventListener('click', () => {
+            store.set('language', b.dataset.lang);
+            applyTranslations(b.dataset.lang);
+        }));
+
+        /* ================= Theme ================= */
+        function isDark() {
+            const forced = document.documentElement.getAttribute('data-theme');
+            if (forced) return forced === 'dark';
+            return window.matchMedia('(prefers-color-scheme: dark)').matches;
+        }
+        function syncTheme() {
+            const meta = document.querySelector('meta[name="theme-color"]');
+            if (meta) meta.setAttribute('content', isDark() ? '#151514' : '#fbfaf6');
+            sim.recolor();
+        }
+        document.getElementById('themeToggle').addEventListener('click', () => {
+            const next = isDark() ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', next);
+            store.set('theme', next);
+            syncTheme();
         });
+        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', syncTheme);
+
+        /* ================= Active section in nav ================= */
+        if ('IntersectionObserver' in window) {
+            const navLinks = document.querySelectorAll('#siteNav a');
+            const io = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + entry.target.id));
+                });
+            }, { rootMargin: '-40% 0px -55% 0px' });
+            document.querySelectorAll('section.sec[id]').forEach(s => io.observe(s));
+        }
+
+        /* ================= Init ================= */
+        buildDotplot();
+        currentLang = detectLanguage();
+        applyTranslations(currentLang);
+        sim.init();
+        syncTheme();
     </script>
 </body>
 </html>
