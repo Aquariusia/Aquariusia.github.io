@@ -23,7 +23,7 @@
     <!-- Fallback faces for systems without Sylfaen (macOS, iOS, Android, Linux) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz@8..60&family=Noto+Serif+JP&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz@8..60&display=swap" rel="stylesheet">
 
     <style>
         /* ================= Tokens ================= */
@@ -38,7 +38,7 @@
             --group-b: #2f4b7c;
             --wash: #f3f1ea;
             /* Sylfaen ships with Windows only and has a single weight, so the design uses no bold or italic */
-            --serif: Sylfaen, 'Source Serif 4', 'Noto Serif JP', Georgia, 'Times New Roman', serif;
+            --serif: Sylfaen, 'Source Serif 4', Georgia, 'Times New Roman', serif;
             --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
             --text: 580px;
             --margin-w: 216px;
@@ -81,7 +81,6 @@
             -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
             counter-reset: sn;
         }
-        html:lang(ja) body { line-height: 1.9; }
         h1, h2, h3, b, strong, th { font-weight: 400; }
         em, i { font-style: normal; }
         a { color: inherit; text-decoration: underline; text-decoration-color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 3px; }
@@ -270,7 +269,7 @@
             </nav>
             <div class="site-tools">
                 <span class="lang-switch" role="group" aria-label="Language">
-                    <button type="button" data-lang="en" aria-pressed="true">EN</button><span class="sep">/</span><button type="button" data-lang="ja" aria-pressed="false">日本語</button><span class="sep">/</span><button type="button" data-lang="fr" aria-pressed="false">FR</button>
+                    <button type="button" data-lang="en" aria-pressed="true">EN</button><span class="sep">/</span><button type="button" data-lang="fr" aria-pressed="false">FR</button>
                 </span>
                 <button type="button" class="theme-btn" id="themeToggle" aria-label="Toggle dark mode">◐</button>
             </div>
@@ -285,7 +284,7 @@
                     <img src="profile.jpg" alt="Portrait of Richard Luo" class="portrait" width="216" height="270" decoding="async">
                     <div class="links">
                         <span class="label" data-i18n="correspondence">Correspondence</span>
-                        <a href="mailto:kiruohoshi@hotmail.com">kiruohoshi@hotmail.com</a>
+                        <a href="mailto:ambrosia.luo@gmail.com">ambrosia.luo@gmail.com</a>
                         <a href="https://github.com/Aquariusia" target="_blank" rel="noopener">github.com/Aquariusia</a>
                         <a href="https://x.com/Seiya_Hoshimi" target="_blank" rel="noopener">x.com/Seiya_Hoshimi</a>
                     </div>
@@ -439,7 +438,7 @@
         <section class="sec page" id="contact">
             <div class="body">
                 <h2><span class="ord">V</span><span data-i18n="sec_contact">Contact</span></h2>
-                <p><span data-i18n="contact_text">I'm open to academic collaborations and research discussions. Email is the quickest way to reach me:</span> <a href="mailto:kiruohoshi@hotmail.com">kiruohoshi@hotmail.com</a>.</p>
+                <p><span data-i18n="contact_text">I'm open to academic collaborations and research discussions. Email is the quickest way to reach me:</span> <a href="mailto:ambrosia.luo@gmail.com">ambrosia.luo@gmail.com</a>.</p>
                 <p><span data-i18n="contact_else">Elsewhere:</span> <a href="https://github.com/Aquariusia" target="_blank" rel="noopener">GitHub</a>, <a href="https://x.com/Seiya_Hoshimi" target="_blank" rel="noopener">X</a>.</p>
             </div>
         </section>
@@ -514,67 +513,6 @@
                 contact_text: "I'm open to academic collaborations and research discussions. Email is the quickest way to reach me:",
                 contact_else: "Elsewhere:",
                 footer_copy: "© 2026 Richard Luo. Hosted on GitHub Pages."
-            },
-            ja: {
-                page_title: "羅 鈺程 | 研究ノート",
-                nav_research: "研究", nav_projects: "プロジェクト", nav_toolkit: "ツールキット", nav_education: "学歴", nav_contact: "連絡先",
-                correspondence: "連絡先",
-                kicker: "研究ノート · ジュネーヴ",
-                role1: "データサイエンティスト", role2: "研究者", role3: "作曲家",
-                intro1: "定量的な手法で社会システムを理解することを目指しています。現在はジュネーヴ大学の修士課程に在籍し、それ以前はシドニー大学で経済学士号を取得しました（Data Science・Econometrics 専攻）。",
-                intro2: "現在の関心は三つの領域にあります。医療AI、エージェントベースの社会シミュレーション、そして因果推論です。",
-
-                sim_tau: "許容しきい値 τ", sim_shuffle: "再配置", sim_pause: "一時停止", sim_run: "実行",
-                sim_share: "同じ集団の隣人の割合", sim_unhappy: "移動を望む割合",
-                fig1_no: "図1", fig1_title: "ブラウザ上で動作するシェリングの分居モデル。",
-                fig1_notes: "各点は二つの集団のいずれかに属するエージェントです。同じ集団の隣人の割合が τ を下回ると、エージェントはランダムな空き地へ移動します。わずかな選好でも強い分居が生じます。これはエージェントベース・シミュレーションの簡単な例示であり、研究成果ではありません。",
-
-                sec_research: "研究",
-                research_intro: "計量経済学、定量社会科学、統計的機械学習を中心に研究しています。",
-                pub1_kind: "学士論文 · シドニー大学",
-                pub1_title: "Card（1993）の再検証と批判的考察：教育収益率の再推定",
-                pub1_summary: "「大学教育にはどれだけの価値があるのか」という古典的な問いを、新たなデータセットと更新された操作変数法で再検討した論文です。",
-                sn_card: "Card の着想：大学の近くで育つと、本人の能力とは無関係な理由で進学しやすくなる。そのため、距離が自然実験として機能する。",
-                pub1_findings: "主な結果は二つです。第一に、インターネットと遠隔学習が普及すると、大学までの距離は操作変数として弱まるとみられます。第二に、低所得層・農村部では教育の限界収益率が大幅に高く、対象を絞った高等教育補助金の根拠となります。",
-                dag_z: "大学までの距離", dag_d: "就学", dag_y: "所得", dag_u: "観測されない能力",
-                dag_edge_a: "就学を左右する", dag_edge_b: "影響が弱まる",
-                dag_classic: "Card の設定", dag_digital: "デジタル時代",
-                fig2_no: "図2", fig2_title: "識別戦略を因果グラフとして描いたもの。",
-                fig2_notes: "大学までの距離（Z）を就学（D）の操作変数として用い、観測されない能力（U）があっても所得（Y）への効果を推定します。「デジタル時代」に切り替えると、遠隔での学習が一般的になり、距離が就学を左右する力が弱まって操作変数も弱くなる様子を示します。模式図であり、推定値ではありません。",
-                read_abstract: "要旨を読む",
-                pub1_details: "本研究は学士論文に基づくものです。David Card（1993）による教育収益率に対する大学進学の因果効果の研究を、新たなデータセットと複数の更新された推定手法を用いて再検証しました。学生の家族所在地と大学への近接性が教育成果に与える関係を再評価するとともに、インターネットの普及と遠隔学習の拡大という文脈において、距離を操作変数とする妥当性がどのように弱まった可能性があるかを検討しました。特に、デジタル化による構造的な行動変化が操作変数の有効性を弱めたという新たな示唆を提示し、広く用いられる計量経済学的識別戦略に時空間的な視点を導入しています。さらに、異質性効果の分析により、低所得層および農村部の集団では、高所得層や都市部の集団に比べて教育収益率の限界効果が大きいことを示し、高等教育補助金の重点的配分が不利なコミュニティに対してより大きな便益をもたらしうることを定量的に示しました。",
-
-                sec_projects: "プロジェクト",
-                projects_intro: "データサイエンス、機械学習、医療AIの応用プロジェクト。",
-                tools: "使用技術：", details: "詳細",
-                project1_kind: "地理空間データ",
-                project1_title: "シドニーにおける小学校新設候補地の最適化",
-                project1_summary: "POI の正規化と GIS マッピングを用いて新たな学校候補地を特定するデータ駆動型研究。",
-                project1_details: "複数の資源指標を POI（Points of Interest）として統合し、正規化した上で、包括的かつ可視化された地理情報システム（GIS）マップに組み込んだプロジェクトです。",
-                project2_kind: "機械学習 · 医療",
-                project2_title: "急性白血病の XGBoost 分類",
-                project2_summary: "Golub et al.（1999）の遺伝子発現データセットを用いた主要バイオマーカー探索。",
-                project2_details: "遺伝子発現データに対して EDA、クリーニング、特徴量エンジニアリングを実施し、複数モデルを比較した結果、高次元・少標本データに最適な手法として XGBoost を採用しました。",
-                project3_kind: "LLM · Web アプリケーション",
-                project3_title: "遺伝的リスク計算機",
-                project3_summary: "LLM と XGBoost を組み合わせたゲノムデータ診断支援システム。",
-                project3_details: "Streamlit ベースの Web アプリケーションを開発し、基礎分類モデルと微調整済み LLM を統合することで、構造化されたプロンプト設計を通じた分析支援を実現しました。",
-
-                sec_toolkit: "ツールキット",
-                toolkit_intro: "伝統的な定量理論と現代的な計算手法の双方にまたがるスキルを持っています。図3に分野別にまとめました。",
-                col_area: "分野", col_level: "レベル", col_tools: "ツール・手法", tools_bio: "遺伝子発現解析、バイオマーカー探索",
-                fig3_no: "図3", fig3_title: "分野別の自己評価による習熟度と、各分野の主なツール・手法。",
-                fig3_notes: "レベルは1（基礎）から5（上級）までで、自己申告です。",
-                skill_labels: ["機械学習", "データサイエンス", "計量経済学", "因果推論", "バイオ医療"],
-
-                sec_education: "学歴",
-                edu1: "理学修士（MSc）、ジュネーヴ大学", edu1_sub: "医療AI、エージェントベース社会シミュレーション、因果推論",
-                edu2_when: "修了", edu2: "経済学士（B.Econ）、シドニー大学", edu2_sub: "Data Science・Econometrics 専攻",
-
-                sec_contact: "連絡先",
-                contact_text: "学術的な共同研究や研究に関するご相談を歓迎します。メールでのご連絡が最も確実です：",
-                contact_else: "その他：",
-                footer_copy: "© 2026 Richard Luo. GitHub Pages で公開中。"
             },
             fr: {
                 page_title: "Richard Luo | Carnet de recherche",
